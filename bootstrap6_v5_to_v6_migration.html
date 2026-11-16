@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bootstrap 5 → 6 Migration Guide</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/premium.css">
+</head>
+<body>
+<main class="container py-4 py-lg-5">
+<header class="hero p-4 p-lg-5 mb-4">
+  <a class="back-link" href="index.html">&larr; All guides</a>
+  <span class="pill mb-3">BOOTSTRAP 5 → 6</span>
+  <h1 class="display-5 fw-bold mb-3">Migration Guide: v5 to v6</h1>
+  <p class="lead mb-3">Every class rename, data-attribute change, markup restructure, JavaScript and Sass change you need to move a v5 project to Bootstrap 6.</p>
+  <p class="mb-0 small opacity-75">Written against Bootstrap 6.0.0-alpha.1. Alpha releases may still change; verify against the installed package before shipping.</p>
+</header>
+
+<div class="alert alert-warning">
+  <strong>Version note:</strong> Bootstrap 6 is alpha. This page documents the official v6 migration changes and uses the <code>6.0.0-alpha.1</code> CDN. Since v6 adds new features alongside these changes, treat the "new components" section as optional reading rather than required migration work.
+</div>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title mb-3">Migration checklist</h2>
+  <p class="hint">Work through these in order. After each step, search the codebase for remaining v5 patterns before moving on.</p>
+  <div class="demo-box">
+    <ol class="mb-0">
+      <li>Update dependencies and build setup</li>
+      <li>Rename CSS classes and data attributes</li>
+      <li>Restructure component HTML</li>
+      <li>Update JavaScript</li>
+      <li>Update Sass</li>
+      <li>Verify and test</li>
+    </ol>
+  </div>
+  <div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">The five changes that break most projects</div>
+  <ul class="mb-0">
+    <li>Breakpoint and state modifiers moved to a <strong>prefix with a colon</strong>: <code>col-md-6</code> → <code>md:col-6</code>.</li>
+    <li><strong>Modal</strong>, <strong>Offcanvas</strong>, and <strong>Dropdown</strong> were renamed to <strong>Dialog</strong>, <strong>Drawer</strong>, and <strong>Menu</strong>.</li>
+    <li><code>btn-primary</code> style variants became <strong>variant + theme token</strong>: <code>btn-solid theme-primary</code>.</li>
+    <li>The JavaScript bundle is <strong>ESM-only</strong>: <code>window.bootstrap</code> is gone.</li>
+    <li>Sass files, variables, and the spacer scale changed; <code>@import</code> must become <code>@use</code>.</li>
+  </ul>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">1</span>Dependencies &amp; build</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>Item</th><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td>Package</td><td><code>bootstrap@5.x</code></td><td><code>bootstrap@6.0.0-alpha.1</code></td></tr>
+        <tr><td>Positioning engine</td><td><code>@popperjs/core</code></td><td><code>@floating-ui/dom</code></td></tr>
+        <tr><td>Datepicker peer</td><td>—</td><td><code>vanilla-calendar-pro</code></td></tr>
+        <tr><td>TypeScript types</td><td><code>@types/bootstrap</code></td><td>Bundled (source is TypeScript; remove <code>@types/bootstrap</code>)</td></tr>
+        <tr><td>Sass imports</td><td><code>@import</code></td><td><code>@use</code> (Node Sass is no longer supported)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint">The bundled build includes Floating UI and Vanilla Calendar Pro. The standalone <code>bootstrap.js</code> leaves both peers external — loading it directly in a browser needs an import map.</p>
+  <div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Sass entry point</div>
+  <pre><code>// v5
+@import "bootstrap/scss/bootstrap";
+
+// v6
+@use "bootstrap/scss/bootstrap";
+
+// v6 with overrides — customize CSS tokens through the token maps
+@use "bootstrap/scss/bootstrap" with (
+  $root-tokens: (
+    --spacer: 1rem,
+  )
+);</code></pre>
+  <p class="hint mb-0">Customize with <code>$root-tokens</code> and each component's <code>$*-tokens</code> map instead of legacy Sass scalars. Token names are written unprefixed in Sass (<code>--spacer</code>); the dist/CDN build adds the <code>--bs-</code> prefix via PostCSS.</p>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">2</span>Responsive &amp; state prefix syntax</h2>
+  <p>Breakpoints and pseudo-states moved from an infix or suffix to a prefix followed by a colon. <code>xxl</code> is now <code>2xl</code>.</p>
+  <p><code>.{class}-{bp}-{value}</code> becomes <code>.{bp}:{class}-{value}</code>, and <code>.{class}-{bp}</code> becomes <code>.{bp}:{class}</code>.</p>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td><code>.d-md-none</code>, <code>.p-lg-3</code></td><td><code>.md:d-none</code>, <code>.lg:p-3</code></td></tr>
+        <tr><td><code>.col-md-6</code></td><td><code>.md:col-6</code></td></tr>
+        <tr><td><code>.row-cols-md-3</code></td><td><code>.md:row-cols-3</code></td></tr>
+        <tr><td><code>.offset-md-2</code></td><td><code>.md:offset-2</code></td></tr>
+        <tr><td><code>.g-md-3</code>, <code>.gx-md-3</code></td><td><code>.md:g-3</code>, <code>.md:gx-3</code></td></tr>
+        <tr><td><code>.g-col-md-4</code></td><td><code>.md:g-col-4</code></td></tr>
+        <tr><td><code>.container-sm</code></td><td><code>.sm:container</code></td></tr>
+        <tr><td><code>.navbar-expand-md</code></td><td><code>.md:navbar-expand</code></td></tr>
+        <tr><td><code>.offcanvas-md</code></td><td><code>.md:drawer</code></td></tr>
+        <tr><td><code>.table-responsive-md</code></td><td><code>.md:table-responsive</code></td></tr>
+        <tr><td><code>.list-group-horizontal-md</code></td><td><code>.md:list-group-horizontal</code></td></tr>
+        <tr><td><code>.sticky-md-top</code></td><td><code>.md:sticky-top</code></td></tr>
+        <tr><td><code>.vstack-md</code></td><td><code>.md:vstack</code></td></tr>
+        <tr><td><code>.dialog-fullscreen-sm-down</code></td><td><code>.sm-down:dialog-fullscreen</code></td></tr>
+        <tr><td><code>.d-print-none</code></td><td><code>.print:d-none</code></td></tr>
+        <tr><td><code>.opacity-50-hover</code></td><td><code>.hover:opacity-50</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-info mb-0">
+    <strong>Container queries:</strong> the prefix does not say which query type is used. Stacks, CSS Grid columns, navbar expansion, horizontal list groups, card groups, and stacked tables use container queries — add the query container each component's docs require.
+  </div>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">3</span>Component renames</h2>
+  <p>Three components were fully renamed. Rename their classes, data attributes, events, JS imports, and CSS variables everywhere.</p>
+
+  <h3 class="h5 mt-4">Modal → Dialog</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>Scope</th><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td>Classes</td><td><code>.modal</code>, <code>.modal-header/body/footer/title</code></td><td><code>.dialog</code>, <code>.dialog-header/body/footer/title</code></td></tr>
+        <tr><td>Sizes</td><td><code>.modal-sm/lg/xl/fullscreen</code></td><td><code>.dialog-sm/lg/xl/fullscreen</code></td></tr>
+        <tr><td>Data attributes</td><td><code>data-bs-toggle="modal"</code>, <code>data-bs-dismiss="modal"</code></td><td><code>data-bs-toggle="dialog"</code>, <code>data-bs-dismiss="dialog"</code></td></tr>
+        <tr><td>JS export</td><td><code>Modal</code></td><td><code>Dialog</code></td></tr>
+        <tr><td>Events</td><td><code>*.bs.modal</code></td><td><code>*.bs.dialog</code></td></tr>
+        <tr><td>CSS variables</td><td><code>--modal-*</code></td><td><code>--dialog-*</code></td></tr>
+        <tr><td>Body class</td><td><code>.modal-open</code> on <code>&lt;body&gt;</code></td><td><code>.dialog-open</code> on <code>&lt;html&gt;</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint">The <code>.modal-dialog</code> and <code>.modal-content</code> wrappers are removed entirely — see the markup section below.</p>
+
+  <h3 class="h5 mt-4">Offcanvas → Drawer</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>Scope</th><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td>Classes</td><td><code>.offcanvas</code>, <code>.offcanvas-start/end/top/bottom/header/body/title</code></td><td><code>.drawer</code>, <code>.drawer-start/end/top/bottom/header/body/title</code></td></tr>
+        <tr><td>Data attributes</td><td><code>data-bs-toggle="offcanvas"</code>, <code>data-bs-dismiss="offcanvas"</code></td><td><code>data-bs-toggle="drawer"</code>, <code>data-bs-dismiss="drawer"</code></td></tr>
+        <tr><td>JS export</td><td><code>Offcanvas</code></td><td><code>Drawer</code></td></tr>
+        <tr><td>Events</td><td><code>*.bs.offcanvas</code></td><td><code>*.bs.drawer</code></td></tr>
+        <tr><td>CSS variables</td><td><code>--offcanvas-*</code></td><td><code>--drawer-*</code></td></tr>
+        <tr><td>Sass</td><td><code>$zindex-offcanvas</code></td><td><code>$zindex-drawer</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="h5 mt-4">Dropdown → Menu</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>Scope</th><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td>Classes</td><td><code>.dropdown-menu</code>, <code>.dropdown-item</code>, <code>.dropdown-divider</code>, <code>.dropdown-header</code></td><td><code>.menu</code>, <code>.menu-item</code>, <code>.menu-divider</code>, <code>.menu-header</code></td></tr>
+        <tr><td>Data attributes</td><td><code>data-bs-toggle="dropdown"</code></td><td><code>data-bs-toggle="menu"</code></td></tr>
+        <tr><td>JS export</td><td><code>Dropdown</code></td><td><code>Menu</code></td></tr>
+        <tr><td>Events</td><td><code>*.bs.dropdown</code></td><td><code>*.bs.menu</code></td></tr>
+        <tr><td>Sass</td><td><code>$zindex-dropdown</code></td><td><code>$zindex-menu</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint mb-0">Also remove <code>.dropdown-toggle</code>, the <code>.dropdown</code> wrapper, and <code>.dropdown-toggle-split</code>. New markup is shown further down.</p>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">4</span>Variants become theme tokens</h2>
+  <p>Per-color classes are replaced by a variant class composed with a <code>.theme-*</code> class on the same element. Built-in theme keys are <code>primary</code>, <code>accent</code>, <code>success</code>, <code>danger</code>, <code>warning</code>, <code>info</code>, <code>inverse</code>, and <code>secondary</code>.</p>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td><code>.btn-primary</code></td><td><code>class="btn-solid theme-primary"</code></td></tr>
+        <tr><td><code>.btn-outline-primary</code></td><td><code>class="btn-outline theme-primary"</code></td></tr>
+        <tr><td><code>.alert-primary</code></td><td><code>class="alert theme-primary"</code></td></tr>
+        <tr><td><code>.badge.bg-primary</code></td><td><code>class="badge theme-primary"</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>New button variants: <code>.btn-solid</code>, <code>.btn-outline</code>, <code>.btn-subtle</code>, <code>.btn-text</code>, <code>.btn-styled</code>, <code>.btn-link</code>.</p>
+  <div class="demo-box mb-3">
+    <button type="button" class="btn btn-solid theme-primary">Solid</button>
+    <button type="button" class="btn btn-outline theme-primary">Outline</button>
+    <button type="button" class="btn btn-subtle theme-primary">Subtle</button>
+    <button type="button" class="btn btn-text theme-primary">Text</button>
+  </div>
+  <div class="small text-uppercase fw-bold text-secondary mb-2">Button markup (v6)</div>
+  <pre><code>&lt;button type="button" class="btn btn-solid theme-primary"&gt;Save&lt;/button&gt;
+&lt;button type="button" class="btn btn-outline theme-secondary"&gt;Cancel&lt;/button&gt;</code></pre>
+  <p class="hint mb-0">Use <code>.theme-reset</code> on a nested subtree to drop inherited <code>--theme-*</code> tokens. There are no <code>.theme-light</code> or <code>.theme-dark</code> classes — review v5 light/dark variants manually and use neutral surfaces, color modes, or <code>.theme-inverse</code>.</p>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">5</span>Utility class renames</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td><code>.text-primary</code>, <code>.text-danger</code>, etc.</td><td><code>.fg-primary</code>, <code>.fg-danger</code>, etc.</td></tr>
+        <tr><td><code>.text-muted</code></td><td><code>.fg-secondary</code></td></tr>
+        <tr><td><code>.mh-*</code></td><td><code>.max-h-*</code></td></tr>
+        <tr><td><code>.mw-*</code></td><td><code>.max-w-*</code></td></tr>
+        <tr><td><code>.form-select</code></td><td><code>.form-control</code> (on <code>&lt;select&gt;</code>)</td></tr>
+        <tr><td><code>.clearfix</code></td><td><code>.d-flow-root</code></td></tr>
+        <tr><td><code>.has-validation</code></td><td>Removed (no longer needed)</td></tr>
+        <tr><td><code>.lh-base</code></td><td><code>.lh-md</code></td></tr>
+        <tr><td><code>.text-bg-primary</code></td><td><code>class="bg-primary fg-contrast-primary"</code></td></tr>
+        <tr><td><code>.link-offset-*</code>, <code>.link-underline-*</code></td><td><code>.underline-offset-*</code>, <code>.underline-*</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><code>.display-1</code>–<code>.display-6</code> and <code>.lead</code> are removed: compose their look with <code>.fs-*</code> and <code>.fw-*</code>. Review <code>.bg-light</code>, <code>.bg-dark</code>, and <code>.bg-body-*</code> and move to v6 neutral surfaces and color modes.</p>
+  <p class="mb-0">Placeholder animations: <code>.placeholder-wave</code> is the standard animation, <code>.placeholder-glow</code> is replaced by <code>.placeholder-pulse</code> for the old opacity fade (<code>.placeholder-glow</code> remains as an alias).</p>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">6</span>Type and spacing scales</h2>
+  <p>The numeric font-size scale became t-shirt sizes, ascending: <code>xs sm md lg xl 2xl 3xl 4xl 5xl 6xl</code>. The rem values below are the v5 sizes, shown only to match each class.</p>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td><code>.fs-1</code> (2.5rem)</td><td><code>.fs-4xl</code></td></tr>
+        <tr><td><code>.fs-2</code> (2rem)</td><td><code>.fs-3xl</code></td></tr>
+        <tr><td><code>.fs-3</code> (1.75rem)</td><td><code>.fs-2xl</code></td></tr>
+        <tr><td><code>.fs-4</code> (1.5rem)</td><td><code>.fs-xl</code></td></tr>
+        <tr><td><code>.fs-5</code> (1.25rem)</td><td><code>.fs-lg</code></td></tr>
+        <tr><td><code>.fs-6</code> (1rem)</td><td><code>.fs-md</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint">In v6, <code>lg</code> and larger are fluid <code>clamp()</code> values that scale with the viewport; <code>xs</code>, <code>sm</code>, and <code>md</code> stay fixed. Sizes keep the relative scale rather than matching v5 exactly.</p>
+  <p>Spacer keys 2–5 changed values. To keep v5 spacing, shift keys up.</p>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>Key</th><th>v5</th><th>v6</th><th>Keep v5 size</th></tr></thead>
+      <tbody>
+        <tr><td>2</td><td>0.5rem</td><td>0.375rem</td><td><code>.p-2</code> → <code>.p-3</code></td></tr>
+        <tr><td>3</td><td>1rem</td><td>0.5rem</td><td><code>.p-3</code> → <code>.p-5</code></td></tr>
+        <tr><td>4</td><td>1.5rem</td><td>0.75rem</td><td><code>.p-4</code> → <code>.p-7</code></td></tr>
+        <tr><td>5</td><td>3rem</td><td>1rem</td><td><code>.p-5</code> → <code>.p-12</code></td></tr>
+        <tr><td>6–12</td><td>—</td><td>1.25rem → 3rem (0.25rem steps)</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint mb-0">Negative margins are limited to <code>.ms--1</code>, <code>.ms--2</code>, <code>.me--1</code>, <code>.me--2</code>. The v5 <code>.m*-n*</code> classes (<code>.mt-n1</code>, <code>.ms-n3</code>) are gone — use these or a custom style.</p>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">7</span>Markup restructure</h2>
+
+  <h3 class="h5 mt-4">Dialog (was Modal)</h3>
+  <p>Remove the <code>.modal-dialog</code> and <code>.modal-content</code> wrappers and use a single native <code>&lt;dialog&gt;</code>. The backdrop is now native <code>::backdrop</code>.</p>
+  <div class="small text-uppercase fw-bold text-secondary mb-2">v5</div>
+  <pre><code>&lt;div class="modal" tabindex="-1"&gt;
+  &lt;div class="modal-dialog"&gt;
+    &lt;div class="modal-content"&gt;
+      &lt;div class="modal-header"&gt;
+        &lt;h5 class="modal-title"&gt;Title&lt;/h5&gt;
+        &lt;button type="button" class="btn-close" data-bs-dismiss="modal"&gt;&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class="modal-body"&gt;Content&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <div class="small text-uppercase fw-bold text-secondary mb-2">v6</div>
+  <pre><code>&lt;dialog class="dialog" id="exampleDialog"&gt;
+  &lt;div class="dialog-header"&gt;
+    &lt;h5 class="dialog-title"&gt;Title&lt;/h5&gt;
+    &lt;button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="dialog-body"&gt;Content&lt;/div&gt;
+  &lt;div class="dialog-footer"&gt;
+    &lt;button class="btn-solid theme-secondary" data-bs-dismiss="dialog"&gt;Close&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</code></pre>
+
+  <h3 class="h5 mt-4">Drawer (was Offcanvas)</h3>
+  <p>Use a native <code>&lt;dialog&gt;</code> element. Renaming a <code>&lt;div class="drawer"&gt;</code> alone does not work.</p>
+  <pre><code>&lt;!-- v5 --&gt;
+&lt;div class="offcanvas offcanvas-start" id="menu"&gt;...&lt;/div&gt;
+
+&lt;!-- v6 --&gt;
+&lt;dialog class="drawer drawer-start" id="menu"&gt;...&lt;/dialog&gt;</code></pre>
+  <p class="hint">For responsive navbars, change <code>data-bs-toggle="collapse"</code> to <code>data-bs-toggle="drawer"</code>. Replace <code>.collapse.navbar-collapse</code> with a <code>&lt;dialog class="drawer"&gt;</code> containing <code>.drawer-header</code> and <code>.drawer-body</code>, rename <code>.navbar-expand-md</code> to <code>.md:navbar-expand</code>, and remove <code>.navbar-light</code> / <code>.navbar-dark</code>.</p>
+
+  <h3 class="h5 mt-4">Accordion</h3>
+  <p>Collapse JS is replaced by native <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code>. The <code>name</code> attribute creates exclusive groups (replacing <code>data-bs-parent</code>). Remove <code>.accordion-button</code> and <code>.accordion-collapse</code>. New modifiers: <code>.accordion-sm</code> for compact spacing and <code>.accordion-gap</code> to space items as separate rounded cards.</p>
+  <pre><code>&lt;div class="accordion"&gt;
+  &lt;details class="accordion-item" name="myAccordion" open&gt;
+    &lt;summary class="accordion-header"&gt;
+      Item 1
+      &lt;svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+           fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"&gt;
+        &lt;path d="m2 5 6 6 6-6"/&gt;
+      &lt;/svg&gt;
+    &lt;/summary&gt;
+    &lt;div class="accordion-body"&gt;Content&lt;/div&gt;
+  &lt;/details&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3 class="h5 mt-4">Menu (was Dropdown)</h3>
+  <p>Remove the <code>.dropdown</code> wrapper and <code>.dropdown-toggle</code>, flatten <code>&lt;ul&gt;&lt;li&gt;&lt;a&gt;</code> to <code>&lt;div&gt;&lt;a&gt;</code>. The toggle and the <code>.menu</code> are siblings.</p>
+  <pre><code>&lt;!-- v5 --&gt;
+&lt;div class="dropdown"&gt;
+  &lt;button class="btn dropdown-toggle" data-bs-toggle="dropdown"&gt;Menu&lt;/button&gt;
+  &lt;ul class="dropdown-menu"&gt;
+    &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;hr class="dropdown-divider"&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Other&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;!-- v6 --&gt;
+&lt;button class="btn-solid theme-secondary" data-bs-toggle="menu"&gt;Menu&lt;/button&gt;
+&lt;div class="menu"&gt;
+  &lt;a class="menu-item" href="#"&gt;Action&lt;/a&gt;
+  &lt;hr class="menu-divider"&gt;
+  &lt;a class="menu-item" href="#"&gt;Other&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3 class="h5 mt-4">Checkbox, radio, and switch</h3>
+  <p>Apply <code>.check</code> directly to the <code>&lt;input&gt;</code> — no wrapper and no inline SVG, the mark is a CSS mask on <code>::before</code>. Radios use <code>.radio</code>; switches keep a <code>.switch</code> wrapper around the input.</p>
+  <pre><code>&lt;!-- v5 --&gt;
+&lt;div class="form-check"&gt;
+  &lt;input class="form-check-input" type="checkbox" id="check1"&gt;
+  &lt;label class="form-check-label" for="check1"&gt;Check me&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- v6 checkbox --&gt;
+&lt;div class="form-field"&gt;
+  &lt;input type="checkbox" id="check1" class="check"&gt;
+  &lt;label for="check1"&gt;Check me&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- v6 radio --&gt;
+&lt;div class="form-field"&gt;
+  &lt;input type="radio" id="radio1" class="radio"&gt;
+  &lt;label for="radio1"&gt;Pick me&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- v6 switch --&gt;
+&lt;div class="form-field"&gt;
+  &lt;div class="switch"&gt;
+    &lt;input type="checkbox" id="switch1" role="switch" switch&gt;
+  &lt;/div&gt;
+  &lt;label for="switch1"&gt;Toggle me&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3 class="h5 mt-4">Toggle buttons</h3>
+  <p>The input is now nested inside the label. <code>.btn-check</code> goes on the label, and no <code>id</code>/<code>for</code> pairing is needed.</p>
+  <pre><code>&lt;!-- v5 --&gt;
+&lt;input type="checkbox" class="btn-check" id="toggle1" autocomplete="off"&gt;
+&lt;label class="btn btn-outline-primary" for="toggle1"&gt;Toggle&lt;/label&gt;
+
+&lt;!-- v6 --&gt;
+&lt;label class="btn-check btn-solid theme-primary"&gt;
+  &lt;input type="checkbox" autocomplete="off"&gt;
+  Toggle
+&lt;/label&gt;</code></pre>
+
+  <h3 class="h5 mt-4">Range</h3>
+  <p><code>.form-range</code> is now a wrapper and a JavaScript hook. Move the class off the input and add <code>.form-range-input</code> to the input.</p>
+  <pre><code>&lt;!-- v5 --&gt;
+&lt;input type="range" class="form-range"&gt;
+
+&lt;!-- v6 --&gt;
+&lt;div class="form-range"&gt;
+  &lt;input type="range" class="form-range-input"&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3 class="h5 mt-4">Breadcrumbs</h3>
+  <p>Add <code>.breadcrumb-link</code> to links and empty <code>.breadcrumb-divider</code> separators (replacing the <code>::before</code> pseudo-elements). An empty divider renders a default chevron via a CSS mask. The default bottom margin is gone.</p>
+  <pre><code>&lt;!-- v5 --&gt;
+&lt;ol class="breadcrumb"&gt;
+  &lt;li class="breadcrumb-item"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="breadcrumb-item active"&gt;Library&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- v6 --&gt;
+&lt;ol class="breadcrumb"&gt;
+  &lt;li class="breadcrumb-item"&gt;&lt;a class="breadcrumb-link" href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="breadcrumb-divider"&gt;&lt;/li&gt;
+  &lt;li class="breadcrumb-item"&gt;&lt;a class="breadcrumb-link active" href="#"&gt;Library&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+  <h3 class="h5 mt-4">Cards</h3>
+  <p>Card markup changed in several smaller ways. Review custom card CSS against these rules.</p>
+  <ul>
+    <li><code>.card</code> owns the background, outer border, radius, shadow, and height; headers and footers only draw their divider border.</li>
+    <li><code>.card-body</code> is optional and is now a flex column that removes direct-child block margins and uses <code>--card-body-gap</code>. Add <code>.flex-row</code> for a horizontal body.</li>
+    <li>Keep <code>.list-group-flush</code> on list groups inside cards. Do not add <code>.card-list</code> — it does not exist.</li>
+    <li><code>.card-title</code> and <code>.card-text</code> no longer add styles; keep them only as project hooks. <code>.card-subtitle</code> still reduces the gap above it.</li>
+    <li><code>.card-link</code> is removed — use normal links with flex or gap utilities.</li>
+    <li>Use <code>.card-row</code> for horizontal cards, and <code>.card-subtle</code> or <code>.card-translucent</code> for the new variants.</li>
+    <li>Card groups now use a container query — add <code>.contains-inline</code> to a parent or the cards stay stacked.</li>
+  </ul>
+
+  <h3 class="h5 mt-4">Close button</h3>
+  <p>The markup does not change — <code>.btn-close</code> stays empty. Do not add a child SVG or the icon renders twice. Internally v6 draws it with a CSS mask over <code>background-color: currentcolor</code>, so the button inherits the current text color.</p>
+  <pre><code>&lt;!-- identical in v5 and v6 --&gt;
+&lt;button type="button" class="btn-close" aria-label="Close"&gt;&lt;/button&gt;</code></pre>
+  <p class="hint mb-0">Because the icon uses <code>currentcolor</code>, <code>.btn-close-white</code> is removed. To get a light close button, set the text color — place it in a dark <code>.theme-*</code> context or add a <code>.fg-*</code> / <code>color</code> utility.</p>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">8</span>Forms &amp; validation</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td><code>.needs-validation</code> on <code>&lt;form&gt;</code></td><td><code>data-bs-validate</code> on <code>&lt;form&gt;</code></td></tr>
+        <tr><td><code>.was-validated</code> added via JS</td><td>Remove — <code>:user-invalid</code> handles it</td></tr>
+        <tr><td><code>&lt;div class="valid-tooltip"&gt;</code></td><td><code>&lt;div class="tooltip valid-tooltip"&gt;</code></td></tr>
+        <tr><td><code>&lt;div class="invalid-tooltip"&gt;</code></td><td><code>&lt;div class="tooltip invalid-tooltip"&gt;</code></td></tr>
+        <tr><td><code>.form-select</code></td><td><code>.form-control</code> on <code>&lt;select&gt;</code></td></tr>
+        <tr><td><code>.form-check</code> / <code>.form-check-input</code></td><td><code>.check</code>, <code>.radio</code>, or <code>.switch</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Validation JavaScript</div>
+  <pre><code>// v5
+document.querySelectorAll('.needs-validation')
+  .forEach(form =&gt; { /* ... */ });
+form.classList.add('was-validated');
+
+// v6
+document.querySelectorAll('form[data-bs-validate]')
+  .forEach(form =&gt; { /* ... */ });
+// Remove the was-validated line entirely</code></pre>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">9</span>JavaScript changes</h2>
+  <p>All dist files are now ES modules. There are no UMD bundles and no <code>window.bootstrap</code> global.</p>
+  <pre><code>&lt;!-- v5 --&gt;
+&lt;script src="bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- v6 --&gt;
+&lt;script type="module" src="bootstrap.bundle.min.js"&gt;&lt;/script&gt;</code></pre>
+  <pre><code>// v5 — global namespace
+const tooltip = bootstrap.Tooltip.getOrCreateInstance(el);
+
+// v6 — explicit import
+import { Tooltip } from './bootstrap.bundle.min.js';
+
+const tooltip = Tooltip.getOrCreateInstance(el);</code></pre>
+  <p class="hint">The data API still initializes automatically once you add <code>type="module"</code>. Bundler imports such as <code>import { X } from 'bootstrap'</code> work as before.</p>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>Area</th><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td>JS export</td><td><code>Modal</code>, <code>Offcanvas</code>, <code>Dropdown</code></td><td><code>Dialog</code>, <code>Drawer</code>, <code>Menu</code></td></tr>
+        <tr><td>Positioning</td><td><code>@popperjs/core</code></td><td><code>@floating-ui/dom</code></td></tr>
+        <tr><td>Config option</td><td><code>popperConfig</code></td><td><code>floatingConfig</code> (Tooltip, Popover, Menu)</td></tr>
+        <tr><td>TypeScript</td><td><code>@types/bootstrap</code></td><td>Declarations ship with the package</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>Lifecycle methods return a promise.</strong> <code>show()</code>, <code>hide()</code>, <code>toggle()</code>, and <code>close()</code> now resolve when the transition ends, so you can <code>await</code> them instead of listening for <code>shown.bs.*</code> / <code>hidden.bs.*</code>. The events still fire.</p>
+  <pre><code>// v6 — await the transition instead of listening for shown.bs.dialog
+const dialog = new Dialog(el);
+await dialog.show();</code></pre>
+  <p>Hover and focus tooltips stay open while the pointer or focus is on the tip itself (WCAG 1.4.13). Press <kbd>Escape</kbd> or leave both the trigger and the tip to hide it. Popup datepickers close on outside interaction, on <kbd>Escape</kbd>, or when focus leaves the input and calendar.</p>
+  <p class="mb-0"><strong>Removed:</strong> jQuery support, <code>bootstrap.esm.js</code> / <code>bootstrap.esm.min.js</code> (use <code>bootstrap.js</code>), and <code>js/index.umd.js</code>.</p>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">10</span>Sass changes</h2>
+
+  <h3 class="h5 mt-4">Renamed files</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td><code>_variables.scss</code></td><td><code>_config.scss</code></td></tr>
+        <tr><td><code>_variables-dark.scss</code></td><td>Removed (merged into <code>_theme.scss</code>)</td></tr>
+        <tr><td><code>_maps.scss</code></td><td>Removed</td></tr>
+        <tr><td><code>_placeholders.scss</code></td><td><code>_placeholder.scss</code></td></tr>
+        <tr><td><code>_spinners.scss</code></td><td><code>_spinner.scss</code></td></tr>
+        <tr><td><code>_form-check.scss</code></td><td><code>_check.scss</code>, <code>_radio.scss</code>, <code>_switch.scss</code></td></tr>
+        <tr><td><code>mixins/_forms.scss</code></td><td><code>mixins/_form-validation.scss</code></td></tr>
+        <tr><td><code>forms/_form-variables.scss</code></td><td>Removed</td></tr>
+        <tr><td><code>vendor/_rfs.scss</code></td><td>Removed</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="h5 mt-4">Renamed variables and functions</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>v5</th><th>v6</th></tr></thead>
+      <tbody>
+        <tr><td><code>$grid-breakpoints</code></td><td><code>$breakpoints</code></td></tr>
+        <tr><td><code>$border-radius</code>, <code>$border-radius-sm/lg/xl/xxl</code>, <code>$border-radius-pill</code></td><td>Removed — see the radius scale</td></tr>
+        <tr><td><code>$text-muted</code></td><td>Use the secondary color</td></tr>
+        <tr><td><code>$hr-bg-color</code></td><td><code>$hr-border-color</code></td></tr>
+        <tr><td><code>$hr-height</code></td><td><code>$hr-border-width</code></td></tr>
+        <tr><td><code>$zindex-dropdown</code></td><td><code>$zindex-menu</code></td></tr>
+        <tr><td><code>$zindex-offcanvas</code></td><td><code>$zindex-drawer</code></td></tr>
+        <tr><td><code>$form-validation-states</code></td><td><code>$validation-states</code></td></tr>
+        <tr><td><code>$btn-close-white-filter</code></td><td>Removed — icon uses <code>currentcolor</code></td></tr>
+        <tr><td><code>$enable-negative-margins</code></td><td>Removed — negative margins are always generated; customize <code>$negative-spacers</code></td></tr>
+        <tr><td><code>add()</code> / <code>subtract()</code></td><td><code>calc()</code></td></tr>
+        <tr><td><code>breakpoint-infix()</code></td><td><code>breakpoint-prefix()</code> (returns <code>"md\:"</code>, not <code>"-md"</code>)</td></tr>
+        <tr><td><code>$infix</code> in loop mixins</td><td><code>$prefix</code></td></tr>
+        <tr><td><code>$prefix</code> (CSS variable prefix)</td><td>Removed — use PostCSS instead</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="h5 mt-4">Border radius scale</h3>
+  <p>The <code>$border-radius-*</code> variables are gone. v6 uses a single base <code>$radius: .5rem</code> and a <code>$radii</code> map (keys <code>0</code>–<code>9</code>), exposed as <code>--radius-0</code>–<code>--radius-9</code> plus <code>--radius-pill</code>. <code>.rounded-*</code> now spans <code>0</code>–<code>9</code> with different values, so shift numbers up to keep the same roundness (<code>.rounded-1</code> → <code>.rounded-3</code>, <code>.rounded-3</code> → <code>.rounded-5</code>).</p>
+  <pre><code>// $radius lives in _config.scss — configure that module before loading Bootstrap
+@use "bootstrap/scss/config" with (
+  $radius: .375rem // scales the whole map
+);
+@use "bootstrap/scss/bootstrap";</code></pre>
+
+  <h3 class="h5 mt-4">Removed with no replacement</h3>
+  <ul class="mb-3">
+    <li><code>$nested-kbd-font-weight</code>, <code>$enable-validation-icons</code>, <code>$enable-dark-mode</code> (dark mode is always compiled)</li>
+    <li><code>$enable-caret</code>, <code>$caret-width</code>, <code>$caret-vertical-align</code>, <code>$caret-spacing</code> and all caret mixins — add an icon to the toggle markup instead</li>
+    <li><code>$accordion-button-focus-border-color</code>, <code>$tooltip-arrow-color</code>, <code>$popover-arrow-color</code>, <code>$popover-arrow-outer-color</code></li>
+    <li><code>$alert-bg-scale</code>, <code>$alert-border-scale</code>, <code>$alert-color-scale</code>, <code>$list-group-item-bg-scale</code>, <code>$list-group-item-color-scale</code></li>
+    <li><code>$carousel-dark-indicator-active-bg</code>, <code>$carousel-dark-control-icon-filter</code>, <code>$dropdown-header-padding</code></li>
+    <li>All <code>*-focus-box-shadow</code> variables — use the <code>focus-ring()</code> mixin with <code>--focus-ring-*</code> custom properties</li>
+    <li>RFS mixins — use <code>clamp()</code> for responsive sizing; <code>create-css-vars()</code> mixin</li>
+    <li><code>muted</code>, <code>black-50</code>, and <code>white-50</code> from the text color utilities map</li>
+  </ul>
+
+  <p><strong>Utility API:</strong> the <code>css-var</code>, <code>css-variable-name</code>, and <code>local-vars</code> options were removed — use a <code>property</code> map and <code>variables</code> instead.</p>
+  <p><strong>Theme maps merge:</strong> <code>$theme-colors</code>, <code>$theme-bgs</code>, <code>$theme-fgs</code>, <code>$theme-borders</code>, <code>$badge-variants</code>, and other global maps use <code>defaults()</code>. Pass only the keys you want through <code>@use ... with ()</code>; set a key to <code>null</code> to drop it. Nested theme-color maps merge one level deep, so pass the whole sub-map to change one role.</p>
+  <p class="mb-0">Root tokens emit on <code>:root, :host</code>. Repeat <code>:root</code> overrides on <code>:host</code> if you use shadow DOM.</p>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">11</span>Rebuilt components</h2>
+
+  <h3 class="h5 mt-4">Carousel — CSS scroll-snap</h3>
+  <p>The markup and JS API are preserved, but several things changed.</p>
+  <ul>
+    <li><code>ride</code> → <code>autoplay</code> (boolean, opt-in). <code>data-bs-ride="carousel"</code> becomes <code>data-bs-autoplay="true"</code>; <code>{ ride: 'carousel' }</code> becomes <code>{ autoplay: true }</code>. Default is <code>false</code>, so a v5 carousel that auto-advanced now sits still.</li>
+    <li>Interacting with an autoplaying carousel now <strong>permanently stops</strong> it (WCAG 2.2.2).</li>
+    <li><code>wrap</code> → <code>ends</code>: <code>wrap: true</code> → <code>ends: "wrap"</code> (or the new default <code>"loop"</code>); <code>wrap: false</code> → <code>ends: "stop"</code>. Set via <code>data-bs-ends</code>. The <code>touch</code> option is removed.</li>
+    <li>Removed classes: <code>.carousel-control-prev/next</code> (compose a <code>.btn-icon</code> + <code>data-bs-slide</code> + <code>.carousel-icon-prev/next</code>), <code>.carousel-caption</code>, <code>.carousel-dark</code> (use <code>data-bs-theme="dark"</code>), <code>.carousel-stacked</code> (now the default), and the transitional <code>.carousel-item-start/end/next/prev</code>.</li>
+    <li>Overlaid controls now require <code>.carousel-overlay</code>. <code>.carousel-control-prev-icon</code> → <code>.carousel-icon-prev</code> (and <code>-next</code>).</li>
+  </ul>
+
+  <h3 class="h5 mt-4">ScrollSpy — IntersectionObserver</h3>
+  <p>The <code>data-bs-spy="scroll"</code> markup and the <code>activate.bs.scrollspy</code> event are unchanged, but detection is driven by an activation line instead of scroll polling.</p>
+  <ul>
+    <li>Removed the deprecated <code>offset</code> and <code>method</code> options.</li>
+    <li>Added <code>topMargin</code> (default <code>12%</code>) — the everyday knob; use <code>96px</code> to sit below a sticky navbar.</li>
+    <li><code>rootMargin</code> is now an advanced override (default <code>null</code>); when set it wins over <code>topMargin</code>.</li>
+    <li><code>threshold</code> default changed from <code>[0.1, 0.5, 1]</code> to <code>[0]</code>.</li>
+    <li>With <code>smoothScroll</code>, clicking a link restores the URL hash and moves focus to the target once the scroll settles.</li>
+    <li>Target ids resolve with <code>getElementById</code>, so dots, colons, slashes, and percent-encoding work without escaping.</li>
+  </ul>
+
+  <h3 class="h5 mt-4">Collapse</h3>
+  <ul class="mb-0">
+    <li>Remove selectors and tests that depend on <code>.collapsing</code> — Collapse now toggles <code>.show</code> and uses native size interpolation.</li>
+    <li>Replace trigger <code>.collapsed</code> selectors with <code>[aria-expanded="false"]</code>.</li>
+    <li>The <code>toggle</code> constructor option is removed — call <code>show()</code> or <code>hide()</code> when initialization must change state.</li>
+  </ul>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">12</span>New components (not in v5)</h2>
+  <p class="hint">Not required for migration, but these are available after upgrading.</p>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>Component</th><th>Trigger / hook</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Combobox</td><td><code>data-bs-toggle="combobox"</code></td><td>Filterable/autocomplete select built on Menu</td></tr>
+        <tr><td>Chip / Chip input</td><td><code>.chip</code>, <code>.chip-input</code> (<code>data-bs-chips</code>)</td><td>Tags / tokens plus interactive entry</td></tr>
+        <tr><td>Datepicker</td><td><code>data-bs-toggle="datepicker"</code></td><td>Date picker (peer dependency <code>vanilla-calendar-pro</code>)</td></tr>
+        <tr><td>Range</td><td><code>.form-range</code> (+ <code>data-bs-bubble</code>, ticks)</td><td>Enhanced range slider with a value bubble</td></tr>
+        <tr><td>Strength</td><td><code>data-bs-strength</code></td><td>Password-strength meter</td></tr>
+        <tr><td>OTP input</td><td><code>data-bs-otp</code></td><td>One-time-code input</td></tr>
+        <tr><td>Nav overflow</td><td><code>.nav-overflow</code> around a <code>.nav</code></td><td>Collapses overflowing nav items into a menu</td></tr>
+        <tr><td>Toggler</td><td><code>data-bs-toggle="toggler"</code></td><td>Generic class/attribute toggler</td></tr>
+        <tr><td>Submenu</td><td><code>.submenu</code> within Menu</td><td>Nested menus (<code>submenuTrigger</code>, <code>submenuDelay</code>)</td></tr>
+        <tr><td>Stepper</td><td><code>.stepper</code></td><td>Multi-step workflow (CSS-only)</td></tr>
+        <tr><td>Avatar</td><td><code>.avatar</code></td><td>Avatars with sizes, status, <code>.avatar-stack</code> (CSS-only)</td></tr>
+        <tr><td>Form adorn</td><td><code>.form-adorn</code></td><td>Icon/text decoration on inputs (CSS-only)</td></tr>
+        <tr><td>Prose</td><td><code>.prose</code> / <code>.not-prose</code></td><td>Rich-typography scoping (CSS-only)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">13</span>Removed internals</h2>
+  <p><strong>Backdrop, focus trap, and scrollbar utilities are gone.</strong> <code>util/backdrop.js</code>, <code>util/focustrap.js</code>, and <code>util/scrollbar.js</code> were removed. Dialog and Drawer use the native <code>&lt;dialog&gt;</code> element, which provides the backdrop (<code>::backdrop</code>), the focus trap, and the inert top layer; the body scroll-lock is now CSS (<code>:root.dialog-open</code>). If you imported those utilities directly, they no longer exist.</p>
+  <p><strong>CSS cascade layers.</strong> Component styles are wrapped in <code>@layer</code> (<code>colors, theme, config, root, reboot, layout, content, forms, components, custom, helpers, utilities</code>). Author CSS outside any layer now wins over Bootstrap regardless of source order — re-check overrides that relied on specificity or load order.</p>
+  <p class="mb-0"><strong><code>--bs-*-rgb</code> variables removed.</strong> The <code>$*-rgb</code> Sass variables and <code>--bs-*-rgb</code> custom properties are gone. Replace <code>rgba(var(--bs-primary-rgb), .5)</code> with <code>color-mix(in oklab, var(--bs-primary), transparent 50%)</code> — or use the color directly.</p>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title"><span class="step-no">14</span>Verify: search for these leftovers</h2>
+  <p>Build the project, fix compilation errors, then search the codebase for each pattern below.</p>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+      <thead><tr><th>Search for</th><th>Replace with</th></tr></thead>
+      <tbody>
+        <tr><td><code>modal</code> classes / attributes</td><td><code>dialog</code></td></tr>
+        <tr><td><code>offcanvas</code></td><td><code>drawer</code></td></tr>
+        <tr><td><code>dropdown</code></td><td><code>menu</code></td></tr>
+        <tr><td><code>d-md-</code>, <code>col-md-</code>, <code>p-lg-</code></td><td><code>md:d-</code>, <code>md:col-</code>, <code>lg:p-</code></td></tr>
+        <tr><td><code>btn-primary</code>, <code>btn-outline-</code></td><td><code>.btn-solid .theme-*</code>, <code>.btn-outline .theme-*</code></td></tr>
+        <tr><td><code>.text-primary</code>, <code>.text-danger</code></td><td><code>.fg-*</code></td></tr>
+        <tr><td><code>@import</code> in Sass</td><td><code>@use</code></td></tr>
+        <tr><td><code>form-select</code></td><td><code>form-control</code></td></tr>
+        <tr><td><code>was-validated</code>, <code>needs-validation</code></td><td><code>data-bs-validate</code></td></tr>
+        <tr><td><code>popperConfig</code></td><td><code>floatingConfig</code></td></tr>
+        <tr><td><code>form-check</code></td><td><code>check</code>, <code>radio</code>, or <code>switch</code></td></tr>
+        <tr><td><code>var(--bs-*-rgb)</code>, <code>rgba(var(--bs-…-rgb)</code></td><td><code>color-mix()</code></td></tr>
+        <tr><td><code>$border-radius</code> Sass variables</td><td><code>$radius</code>, <code>$radii</code>, <code>--radius-*</code></td></tr>
+        <tr><td>Child <code>&lt;svg&gt;</code> inside <code>.btn-close</code></td><td>Empty button — icon is a CSS mask</td></tr>
+        <tr><td><code>.btn-close-white</code></td><td>Set the text <code>color</code></td></tr>
+        <tr><td><code>&lt;div class="drawer"&gt;</code></td><td><code>&lt;dialog class="drawer"&gt;</code></td></tr>
+        <tr><td><code>data-bs-ride</code>, <code>wrap:</code></td><td><code>data-bs-autoplay</code>, <code>ends:</code></td></tr>
+        <tr><td><code>.carousel-control-prev/next</code>, <code>.carousel-caption</code>, <code>.carousel-dark</code>, <code>.carousel-stacked</code></td><td>Removed — rebuild with v6 classes</td></tr>
+        <tr><td><code>.fs-1</code>–<code>.fs-6</code></td><td><code>.fs-4xl</code> … <code>.fs-md</code></td></tr>
+        <tr><td><code>.link-offset-*</code>, <code>.link-underline-*</code></td><td><code>.underline-offset-*</code>, <code>.underline-*</code></td></tr>
+        <tr><td>ScrollSpy <code>offset</code> / <code>method</code></td><td><code>topMargin</code></td></tr>
+        <tr><td>Inline SVG inside <code>.check</code></td><td>CSS mask on the input</td></tr>
+        <tr><td>Full-map <code>$theme-colors</code> replacements</td><td><code>defaults()</code> merge via <code>@use … with ()</code></td></tr>
+        <tr><td><code>.collapsing</code>, <code>.collapsed</code> triggers, Collapse <code>toggle</code></td><td><code>.show</code>, <code>[aria-expanded="false"]</code>, <code>show()</code>/<code>hide()</code></td></tr>
+        <tr><td>Stacks, CSS Grid, navbars, list groups, card groups, stacked tables without a query container</td><td>Add the documented <code>.contains-*</code> container</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-info mb-0">Test in a modern browser — Bootstrap 6 requires support for <code>oklch()</code> and <code>color-mix()</code>.</div>
+</div></section>
+
+<section class="mb-4"><div class="card-demo bg-white p-4">
+  <h2 class="h4 section-title mb-3">Related pages</h2>
+  <div class="row g-3 toc">
+    <div class="col-12 md:col-6"><a href="01-layout-grid.html">Layout &amp; Responsive Grid</a></div>
+    <div class="col-12 md:col-6"><a href="05-forms-spacing.html">Forms &amp; Spacing</a></div>
+    <div class="col-12 md:col-6"><a href="bootstrap6_otp_input_examples.html">OTP Input Examples</a></div>
+    <div class="col-12 md:col-6"><a href="bootstrap6_datepicker_examples.html">Datepicker Examples</a></div>
+  </div>
+</div></section>
+
+<footer class="border-top pt-3 mt-5 small text-secondary">
+  <p class="mb-1">Reference: <a href="https://getbootstrap.com/docs/6.0/migration/" target="_blank" rel="noopener">Official Bootstrap 6 migration guide</a>.</p>
+  <p class="mb-0">Keep CSS and JavaScript versions aligned, and re-test after each alpha release.</p>
+</footer>
+</main>
+<script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

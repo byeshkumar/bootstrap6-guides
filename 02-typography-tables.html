@@ -1,0 +1,23 @@
+<!doctype html><html lang="en" data-bs-theme="light"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Typography & Tables</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/premium.css"></head><body><main class="container py-4 py-lg-5">
+<header class="hero p-4 p-lg-5 mb-4"><a class="back-link" href="index.html">&larr; All guides</a><div class="small text-uppercase fw-bold opacity-75">Bootstrap 6 · Subject Guide</div><h1 class="display-5 fw-bold mt-2">Typography & Tables</h1><p class="lead mb-0">Font-size scale and table styling patterns.</p></header>
+<div class="alert alert-warning"><strong>Version note:</strong> Bootstrap 6 is alpha. These guides use the 6.0.0-alpha.1 CDN. Some class names from your notes may require a custom build or project CSS.</div>
+<section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">1. Font-size scale</h2><p>Use the font-size utility scale for headings, text, labels, and helper content.</p><div class="demo-box"><div class="fs-xs">fs-xs — extra small</div><div class="fs-sm">fs-sm — small</div><div class="fs-md">fs-md — medium</div><div class="fs-lg">fs-lg — large</div><div class="fs-xl">fs-xl — extra large</div><div class="fs-2xl">fs-2xl — 2X large</div><div class="fs-3xl">fs-3xl — 3X large</div><div class="fs-4xl">fs-4xl — 4X large</div><div class="fs-5xl">fs-5xl — 5X large</div><div class="fs-6xl">fs-6xl — 6X large</div></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;p class="fs-xs"&gt;Helper text&lt;/p&gt;
+&lt;p class="fs-md"&gt;Body text&lt;/p&gt;
+&lt;h1 class="fs-4xl"&gt;Page heading&lt;/h1&gt;
+&lt;div class="fs-6xl"&gt;Hero text&lt;/div&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">2. Striped columns</h2><p>Use <code>table-striped-columns</code> for alternate column shading rather than alternate row shading.</p><div class="table-responsive"><table class="table table-striped-columns"><thead><tr><th>Employee</th><th>Team</th><th>Status</th></tr></thead><tbody><tr><td>Amar</td><td>Development</td><td>Active</td></tr><tr><td>Bhavya</td><td>QA</td><td>Active</td></tr></tbody></table></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;table class="table table-striped-columns"&gt;
+  ...
+&lt;/table&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">3. Bordered table with primary border</h2><p>Combine <code>table-bordered</code> and <code>border-primary</code> for a bordered table using the primary theme color.</p><div class="table-responsive"><table class="table table-bordered border-primary"><thead><tr><th>Task</th><th>Owner</th></tr></thead><tbody><tr><td>Update dashboard</td><td>Developer</td></tr><tr><td>Verify release</td><td>QA</td></tr></tbody></table></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;table class="table table-bordered border-primary"&gt;
+  ...
+&lt;/table&gt;</code></pre></div></section><footer class="border-top pt-3 mt-5 small text-secondary">See the <a href="https://getbootstrap.com/docs/6.0/">official Bootstrap 6 documentation</a>. Keep CSS and JavaScript versions aligned.</footer>
+</main><script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"></script></body></html>

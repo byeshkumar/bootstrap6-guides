@@ -1,0 +1,116 @@
+<!doctype html><html lang="en" data-bs-theme="light"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interactive Components</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/premium.css"></head><body><main class="container py-4 py-lg-5">
+<header class="hero p-4 p-lg-5 mb-4"><a class="back-link" href="index.html">&larr; All guides</a><div class="small text-uppercase fw-bold opacity-75">Bootstrap 6 · Subject Guide</div><h1 class="display-5 fw-bold mt-2">Interactive Components</h1><p class="lead mb-0">Hover lift, toggler, scrollspy, dialog, drawer, and avatar patterns.</p></header>
+<div class="alert alert-warning"><strong>Version note:</strong> Bootstrap 6 is alpha. These guides use the 6.0.0-alpha.1 CDN. Some class names from your notes may require a custom build or project CSS.</div>
+<section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">1. Hover lift</h2><p>A small hover animation can make clickable cards feel responsive. If your project does not provide a hover-lift utility, use this CSS fallback.</p><div class="demo-box hover-lift-demo">Hover over this card to see the lift effect.</div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;div class="hover-lift"&gt;Card content&lt;/div&gt;
+
+/* CSS fallback */
+.hover-lift {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1rem 2rem rgba(0,0,0,.12);
+}</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">2. Toggler / collapse</h2><p>Toggle content open and closed with Bootstrap's collapse component.</p><button class="btn btn-solid theme-primary" data-bs-toggle="collapse" data-bs-target="#toggleDemo" aria-expanded="false" aria-controls="toggleDemo">Toggle details</button><div class="collapse mt-3" id="toggleDemo"><div class="demo-box">This content can be expanded and collapsed.</div></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;button class="btn btn-solid theme-primary" data-bs-toggle="collapse"
+        data-bs-target="#details" aria-controls="details"&gt;
+  Toggle details
+&lt;/button&gt;
+&lt;div class="collapse" id="details"&gt;Collapsible content&lt;/div&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">3. Scrollspy</h2><p>Scrollspy updates navigation state as the user scrolls through sections. The target links must match the section IDs.</p><nav id="spyNav" class="nav nav-pills gap-2 mb-3"><a class="nav-link active" href="#spyA">Overview</a><a class="nav-link" href="#spyB">Details</a><a class="nav-link" href="#spyC">Summary</a></nav><div data-bs-spy="scroll" data-bs-target="#spyNav" tabindex="0" class="border rounded p-3" style="height:160px;overflow-y:auto;position:relative"><h5 id="spyA">Overview</h5><p>Introductory content.</p><h5 id="spyB">Details</h5><p>More details. Scroll this panel.</p><h5 id="spyC">Summary</h5><p>Closing notes.</p></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;nav id="sectionNav" class="nav nav-pills"&gt;
+  &lt;a class="nav-link" href="#overview"&gt;Overview&lt;/a&gt;
+  &lt;a class="nav-link" href="#details"&gt;Details&lt;/a&gt;
+&lt;/nav&gt;
+&lt;div data-bs-spy="scroll" data-bs-target="#sectionNav"
+     tabindex="0" style="height:240px;overflow-y:auto"&gt;
+  &lt;section id="overview"&gt;...&lt;/section&gt;
+  &lt;section id="details"&gt;...&lt;/section&gt;
+&lt;/div&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">4. Dialog</h2><p>A native <code>&lt;dialog&gt;</code> is useful for confirmation or a focused task without navigating away. Bootstrap 6 handles the backdrop, focus trap, and Escape key for you.</p>
+<button class="btn btn-solid theme-primary" data-bs-toggle="dialog" data-bs-target="#demoDialog">Open dialog</button>
+<dialog class="dialog" id="demoDialog" aria-labelledby="demoDialogLabel">
+  <div class="dialog-header">
+    <h5 class="dialog-title" id="demoDialogLabel">Confirm action</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
+  </div>
+  <div class="dialog-body">Are you sure you want to continue?</div>
+  <div class="dialog-footer">
+    <button class="btn btn-solid theme-secondary" data-bs-dismiss="dialog">Cancel</button>
+    <button class="btn btn-solid theme-primary" data-bs-dismiss="dialog">Confirm</button>
+  </div>
+</dialog>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;button class="btn btn-solid theme-primary"
+        data-bs-toggle="dialog" data-bs-target="#confirmDialog"&gt;
+  Open dialog
+&lt;/button&gt;
+
+&lt;dialog class="dialog" id="confirmDialog"
+        aria-labelledby="confirmDialogTitle"&gt;
+  &lt;div class="dialog-header"&gt;
+    &lt;h5 class="dialog-title" id="confirmDialogTitle"&gt;Confirm action&lt;/h5&gt;
+    &lt;button class="btn-close" data-bs-dismiss="dialog"
+            aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="dialog-body"&gt;
+    Are you sure you want to continue?
+  &lt;/div&gt;
+  &lt;div class="dialog-footer"&gt;
+    &lt;button class="btn btn-solid theme-secondary"
+            data-bs-dismiss="dialog"&gt;Cancel&lt;/button&gt;
+    &lt;button class="btn btn-solid theme-primary"
+            data-bs-dismiss="dialog"&gt;Confirm&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">5. Drawer</h2><p>A drawer is useful for filters, navigation, and contextual actions. Like the dialog, it is a native <code>&lt;dialog&gt;</code> element in Bootstrap 6.</p>
+<button class="btn btn-outline theme-primary" data-bs-toggle="drawer" data-bs-target="#demoDrawer">Open drawer</button>
+<dialog class="drawer drawer-end" id="demoDrawer" aria-labelledby="demoDrawerLabel">
+  <div class="drawer-header">
+    <h5 class="drawer-title" id="demoDrawerLabel">Filter options</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
+  </div>
+  <div class="drawer-body">Put filters and quick actions here.</div>
+  <div class="drawer-footer">
+    <button class="btn btn-solid theme-secondary" data-bs-dismiss="drawer">Reset</button>
+    <button class="btn btn-solid theme-primary" data-bs-dismiss="drawer">Apply filters</button>
+  </div>
+</dialog>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;button class="btn btn-outline theme-primary"
+        data-bs-toggle="drawer" data-bs-target="#filterDrawer"&gt;
+  Open drawer
+&lt;/button&gt;
+
+&lt;dialog class="drawer drawer-end" id="filterDrawer"
+        aria-labelledby="filterDrawerTitle"&gt;
+  &lt;div class="drawer-header"&gt;
+    &lt;h5 class="drawer-title" id="filterDrawerTitle"&gt;Filter options&lt;/h5&gt;
+    &lt;button class="btn-close" data-bs-dismiss="drawer"
+            aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="drawer-body"&gt;
+    Put filters and quick actions here.
+  &lt;/div&gt;
+  &lt;div class="drawer-footer"&gt;
+    &lt;button class="btn btn-solid theme-secondary"
+            data-bs-dismiss="drawer"&gt;Reset&lt;/button&gt;
+    &lt;button class="btn btn-solid theme-primary"
+            data-bs-dismiss="drawer"&gt;Apply filters&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">6. Avatar</h2><p>Use a photo or initials to identify a person. This initials avatar does not need an image file.</p><div class="d-flex align-items-center gap-3"><div class="avatar" role="img" aria-label="Avatar for Yeshwanth">YK</div><div><strong>Yeshwanth Kumar</strong><div class="text-secondary small">Delivery Manager</div></div></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;div class="avatar" role="img" aria-label="Avatar for Yeshwanth"&gt;YK&lt;/div&gt;
+
+/* CSS fallback */
+.avatar {
+  width: 3.2rem; height: 3.2rem; border-radius: 50%;
+  display: inline-grid; place-items: center;
+  background: #e8efff; color: #244aa5; font-weight: 800;
+}</code></pre></div></section><footer class="border-top pt-3 mt-5 small text-secondary">See the <a href="https://getbootstrap.com/docs/6.0/">official Bootstrap 6 documentation</a>. Keep CSS and JavaScript versions aligned.</footer>
+</main><script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"></script></body></html>

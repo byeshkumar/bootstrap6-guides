@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="color-scheme" content="light">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap 6 Datepicker — Examples & Ready-to-Use Code</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe"
+        crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/premium.css">
+</head>
+<body>
+  <main class="container py-4 py-lg-5">
+    <header class="hero p-4 p-lg-5 mb-4 mb-lg-5">
+      <a class="back-link" href="index.html">&larr; All guides</a>
+      <span class="pill mb-3">BOOTSTRAP 6 · ALPHA 1</span>
+      <h1 class="display-5 fw-bold mb-3">Datepicker Examples</h1>
+      <p class="lead mb-3">Interactive demos, option syntax, and copy-ready snippets for common datepicker patterns.</p>
+      <p class="mb-0 small opacity-75">Based on the official Bootstrap 6 datepicker documentation. This page loads Bootstrap from a CDN, so an internet connection is required.</p>
+    </header>
+
+    <div class="alert alert-warning mb-4" role="alert">
+      <strong>Version note:</strong> Bootstrap 6 is currently an alpha release. These examples use the Bootstrap <code>6.0.0-alpha.1</code> CDN and APIs from the official documentation. Confirm compatibility before using them in production.
+    </div>
+
+    <section class="mb-5">
+      <h2 class="section-title mb-3">Before you start</h2>
+      <div class="demo-card bg-white p-4">
+        <p class="mb-2">The Bootstrap 6 datepicker is included in the Bootstrap JavaScript bundle together with its datepicker dependency. It uses ES modules, so the script is loaded with <code>type="module"</code>. jQuery is not required.</p>
+        <div class="code-label mb-2">Required CDN includes</div>
+        <pre><code>&lt;!-- In &lt;head&gt; --&gt;
+&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"&gt;
+
+&lt;!-- Before &lt;/body&gt; --&gt;
+&lt;script type="module"
+  src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"&gt;
+&lt;/script&gt;</code></pre>
+        <p class="hint mb-0">The complete HTML file already includes the CDN references and integrity attributes. Keep the matching CSS and JavaScript versions together.</p>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title mb-3">Interactive examples</h2>
+      <div class="row g-4">
+        <div class="col-12 md:col-6">
+          <article class="demo-card bg-white p-4">
+            <h2><span class="step-no">1</span>Simple datepicker</h2>
+            <p class="hint">Click the input and select a date. Use <code>type="text"</code> to avoid the browser's native date picker.</p>
+            <label for="simpleDate" class="form-label">Choose a date</label>
+            <input id="simpleDate" type="text" class="form-control" data-bs-toggle="datepicker" autocomplete="off" placeholder="Select a date">
+            <div class="code-label mt-4 mb-2">HTML</div>
+            <pre><code>&lt;label for="simpleDate" class="form-label"&gt;Choose a date&lt;/label&gt;
+&lt;input type="text" class="form-control" id="simpleDate"
+       data-bs-toggle="datepicker"
+       autocomplete="off" placeholder="Select a date"&gt;</code></pre>
+          </article>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <article class="demo-card bg-white p-4">
+            <h2><span class="step-no">2</span>With form field</h2>
+            <p class="hint">Place the label, input, helper text, and validation message together in your form layout.</p>
+            <div class="mb-3">
+              <label for="formDate" class="form-label">Appointment date</label>
+              <input id="formDate" name="AppointmentDate" type="text" class="form-control" data-bs-toggle="datepicker" autocomplete="off" placeholder="Choose appointment date">
+              <div class="form-text">Select the date for your appointment.</div>
+              <div class="invalid-feedback">Please select a valid date.</div>
+            </div>
+            <div class="code-label mt-4 mb-2">HTML</div>
+            <pre><code>&lt;div class="mb-3"&gt;
+  &lt;label for="formDate" class="form-label"&gt;Appointment date&lt;/label&gt;
+  &lt;input id="formDate" name="AppointmentDate" type="text"
+         class="form-control" data-bs-toggle="datepicker"
+         autocomplete="off" placeholder="Choose appointment date"&gt;
+  &lt;div class="form-text"&gt;Select the date for your appointment.&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <p class="hint mb-0">The datepicker helps select a date; server-side validation is still required when submitting a form.</p>
+          </article>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <article class="demo-card bg-white p-4">
+            <h2><span class="step-no">3</span>With calendar icon</h2>
+            <p class="hint">A simple icon placed inside the input wrapper. The wrapper is positioned so the icon stays aligned.</p>
+            <label for="iconDate" class="form-label">Select date</label>
+            <div class="icon-field">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="3.5" y="5" width="17" height="16" rx="2"></rect><path d="M7.5 3v4M16.5 3v4M3.5 9.5h17"></path>
+              </svg>
+              <input id="iconDate" type="text" class="form-control" data-bs-toggle="datepicker" autocomplete="off" placeholder="Choose date">
+            </div>
+            <div class="code-label mt-4 mb-2">HTML + CSS</div>
+            <pre><code>&lt;label for="iconDate" class="form-label"&gt;Select date&lt;/label&gt;
+&lt;div class="icon-field"&gt;
+  &lt;!-- Inline SVG calendar icon --&gt;
+  &lt;svg class="calendar-icon" aria-hidden="true"&gt;...&lt;/svg&gt;
+  &lt;input id="iconDate" type="text" class="form-control"
+         data-bs-toggle="datepicker" autocomplete="off"&gt;
+&lt;/div&gt;
+
+/* Icon positioning */
+.icon-field { position: relative; }
+.icon-field svg {
+  position: absolute; left: .8rem; top: 50%;
+  transform: translateY(-50%); pointer-events: none;
+}
+.icon-field input { padding-left: 2.5rem; }</code></pre>
+          </article>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <article class="demo-card bg-white p-4">
+            <h2><span class="step-no">4</span>Minimum and maximum dates</h2>
+            <p class="hint">Only dates from January 1 through December 31, 2026 are selectable in this example.</p>
+            <label for="minMaxDate" class="form-label">Event date (2026 only)</label>
+            <input id="minMaxDate" type="text" class="form-control" data-bs-toggle="datepicker" data-bs-date-min="2026-01-01" data-bs-date-max="2026-12-31" autocomplete="off" placeholder="Select a date in 2026">
+            <div class="code-label mt-4 mb-2">HTML</div>
+            <pre><code>&lt;input type="text" class="form-control" id="minMaxDate"
+       data-bs-toggle="datepicker"
+       data-bs-date-min="2026-01-01"
+       data-bs-date-max="2026-12-31"
+       autocomplete="off" placeholder="Select a date in 2026"&gt;</code></pre>
+            <p class="hint mb-0"><code>date-min</code> and <code>date-max</code> use the <code>YYYY-MM-DD</code> format. Change the values to your required dates.</p>
+          </article>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <article class="demo-card bg-white p-4">
+            <h2><span class="step-no">5</span>Multiple months</h2>
+            <p class="hint">Show two months side-by-side. This is especially useful when users need to navigate across month boundaries.</p>
+            <label for="twoMonths" class="form-label">Choose a date range</label>
+            <input id="twoMonths" type="text" class="form-control" data-bs-toggle="datepicker" data-bs-selection-mode="multiple-ranged" data-bs-display-months-count="2" autocomplete="off" placeholder="Select start and end dates">
+            <div class="code-label mt-4 mb-2">HTML</div>
+            <pre><code>&lt;input type="text" class="form-control" id="twoMonths"
+       data-bs-toggle="datepicker"
+       data-bs-selection-mode="multiple-ranged"
+       data-bs-display-months-count="2"
+       autocomplete="off" placeholder="Select start and end dates"&gt;</code></pre>
+            <p class="hint mb-0"><code>display-months-count="2"</code> displays two calendar months. Use a larger number if your layout has enough space.</p>
+          </article>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <article class="demo-card bg-white p-4">
+            <h2><span class="step-no">6</span>Date range</h2>
+            <p class="hint">Select a start date and an end date. The two example dates below are preselected to demonstrate the syntax.</p>
+            <label for="dateRange" class="form-label">Report date range</label>
+            <input id="dateRange" type="text" class="form-control" data-bs-toggle="datepicker" data-bs-selection-mode="multiple-ranged" data-bs-selected-dates='["2026-06-10","2026-06-18"]' autocomplete="off" placeholder="Select start and end dates">
+            <div class="code-label mt-4 mb-2">HTML</div>
+            <pre><code>&lt;input type="text" class="form-control" id="dateRange"
+       data-bs-toggle="datepicker"
+       data-bs-selection-mode="multiple-ranged"
+       data-bs-selected-dates='["2026-06-10","2026-06-18"]'
+       autocomplete="off" placeholder="Select start and end dates"&gt;</code></pre>
+            <p class="hint mb-0">Remove <code>data-bs-selected-dates</code> if you don't want a preselected range.</p>
+          </article>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <article class="demo-card bg-white p-4">
+            <h2><span class="step-no">7</span>Multi-month date range</h2>
+            <p class="hint">Combines range selection and two visible months so users can select dates across months.</p>
+            <label for="multiMonthRange" class="form-label">Travel or reporting period</label>
+            <input id="multiMonthRange" type="text" class="form-control" data-bs-toggle="datepicker" data-bs-selection-mode="multiple-ranged" data-bs-display-months-count="2" data-bs-selected-dates='["2026-06-25","2026-07-08"]' autocomplete="off" placeholder="Select start and end dates">
+            <div class="code-label mt-4 mb-2">HTML</div>
+            <pre><code>&lt;input type="text" class="form-control" id="multiMonthRange"
+       data-bs-toggle="datepicker"
+       data-bs-selection-mode="multiple-ranged"
+       data-bs-display-months-count="2"
+       data-bs-selected-dates='["2026-06-25","2026-07-08"]'
+       autocomplete="off" placeholder="Select start and end dates"&gt;</code></pre>
+          </article>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <article class="demo-card bg-white p-4">
+            <h2><span class="step-no">8</span>First day of week</h2>
+            <p class="hint">Use <code>0</code> for Sunday, <code>1</code> for Monday, and so on through <code>6</code> for Saturday.</p>
+            <label for="weekStart" class="form-label">Week starts on Monday</label>
+            <input id="weekStart" type="text" class="form-control" data-bs-toggle="datepicker" data-bs-first-weekday="1" autocomplete="off" placeholder="Select a date">
+            <div class="code-label mt-4 mb-2">HTML</div>
+            <pre><code>&lt;input type="text" class="form-control" id="weekStart"
+       data-bs-toggle="datepicker"
+       data-bs-first-weekday="1"
+       autocomplete="off" placeholder="Select a date"&gt;</code></pre>
+            <p class="hint mb-0">For a Sunday-first calendar, change the value to <code>0</code>.</p>
+          </article>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <article class="demo-card bg-white p-4">
+            <h2><span class="step-no">9</span>Button trigger</h2>
+            <p class="hint">Open the calendar from a button, useful for dashboard filters. The display span updates with the selected date.</p>
+            <button type="button" class="btn btn-outline-primary d-inline-flex align-items-center gap-2" data-bs-toggle="datepicker">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="3.5" y="5" width="17" height="16" rx="2"></rect><path d="M7.5 3v4M16.5 3v4M3.5 9.5h17"></path>
+              </svg>
+              <span data-bs-datepicker-display>Select date</span>
+            </button>
+            <div class="code-label mt-4 mb-2">HTML</div>
+            <pre><code>&lt;button type="button" class="btn btn-outline-primary"
+        data-bs-toggle="datepicker"&gt;
+  &lt;svg aria-hidden="true"&gt;...calendar icon...&lt;/svg&gt;
+  &lt;span data-bs-datepicker-display&gt;Select date&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+            <p class="hint mb-0">For a date range, add <code>data-bs-selection-mode="multiple-ranged"</code> to the button.</p>
+          </article>
+        </div>
+
+        <div class="col-12">
+          <article class="demo-card bg-white p-4">
+            <h2><span class="step-no">10</span>Custom date formatting</h2>
+            <p class="hint">Use JavaScript to control the text shown in the input. This example displays dates in a short, readable format.</p>
+            <label for="customFormat" class="form-label">Formatted date</label>
+            <input id="customFormat" type="text" class="form-control" autocomplete="off" placeholder="e.g. Oct 21, 2026">
+            <div class="code-label mt-4 mb-2">JavaScript (ES module)</div>
+            <pre><code>import { Datepicker } from
+  "https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js";
+
+const element = document.getElementById("customFormat");
+
+new Datepicker(element, {
+  dateFormat: {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  },
+  locale: "en-IN"
+});</code></pre>
+            <p class="hint mb-0">For example, the selected date can display as <strong>Oct 21, 2026</strong>. To use a custom formatter, set <code>dateFormat</code> to a function that accepts <code>(date, locale)</code> and returns a string.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title mb-3">Useful attributes and options</h2>
+      <div class="demo-card bg-white p-4">
+        <div class="table-responsive">
+          <table class="table table-striped align-middle mb-0">
+            <thead><tr><th>Attribute / option</th><th>Purpose</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><code>data-bs-toggle="datepicker"</code></td><td>Enables the datepicker.</td><td><code>data-bs-toggle="datepicker"</code></td></tr>
+              <tr><td><code>data-bs-date-min</code></td><td>Earliest selectable date.</td><td><code>"2026-01-01"</code></td></tr>
+              <tr><td><code>data-bs-date-max</code></td><td>Latest selectable date.</td><td><code>"2026-12-31"</code></td></tr>
+              <tr><td><code>data-bs-selection-mode</code></td><td>Choose single, multiple, or range selection.</td><td><code>"multiple-ranged"</code></td></tr>
+              <tr><td><code>data-bs-display-months-count</code></td><td>Number of months shown side-by-side.</td><td><code>"2"</code></td></tr>
+              <tr><td><code>data-bs-first-weekday</code></td><td>First weekday; 0 = Sunday, 1 = Monday.</td><td><code>"1"</code></td></tr>
+              <tr><td><code>data-bs-selected-dates</code></td><td>Preselect one or more dates; for a range, provide start and end.</td><td><code>'["2026-06-10","2026-06-18"]'</code></td></tr>
+              <tr><td><code>data-bs-datepicker-display</code></td><td>Marks the text element that displays a button's selected date.</td><td><code>&lt;span data-bs-datepicker-display&gt;</code></td></tr>
+              <tr><td><code>dateFormat</code></td><td>JavaScript option for custom display formatting.</td><td><code>{ month: "short", day: "numeric", year: "numeric" }</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title mb-3">JavaScript API: initialize and read selected dates</h2>
+      <div class="demo-card bg-white p-4">
+        <p>When you need more control than data attributes provide, import the datepicker class in an ES module and initialize it with options.</p>
+        <pre><code>import { Datepicker } from
+  "https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js";
+
+const input = document.getElementById("myDatepicker");
+
+const picker = new Datepicker(input, {
+  selectionMode: "single",
+  firstWeekday: 1
+});
+
+// Read selected dates (YYYY-MM-DD strings)
+console.log(picker.getSelectedDates());
+
+// Listen for a selection change
+input.addEventListener("change.bs.datepicker", (event) => {
+  console.log("Selected dates:", event.dates);
+});</code></pre>
+        <p class="hint mb-0">Bootstrap 6 uses ES modules; unlike Bootstrap 5, it does not expose the old <code>window.bootstrap</code> global. Avoid examples that rely on <code>bootstrap.Datepicker</code> being globally available when using the CDN build.</p>
+      </div>
+    </section>
+
+    <footer class="text-secondary small pt-3 border-top">
+      <p class="mb-1">Reference: <a href="https://getbootstrap.com/docs/6.0/forms/datepicker/" target="_blank" rel="noopener">Official Bootstrap 6 Datepicker documentation</a>.</p>
+      <p class="mb-0">Tip: Open this file in a modern browser with internet access. Bootstrap 6 Alpha requires a modern browser and may change before the stable release.</p>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { Datepicker } from "https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js";
+
+    // Bootstrap's data API initializes the data-bs-toggle examples.
+    // Initialize this one explicitly because it uses a custom dateFormat.
+    const customDateInput = document.getElementById("customFormat");
+    new Datepicker(customDateInput, {
+      dateFormat: { month: "short", day: "numeric", year: "numeric" },
+      locale: "en-IN"
+    });
+  </script>
+</body>
+</html>

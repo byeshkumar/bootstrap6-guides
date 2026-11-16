@@ -1,0 +1,26 @@
+<!doctype html><html lang="en" data-bs-theme="light"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Colors & Themes</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/premium.css"></head><body><main class="container py-4 py-lg-5">
+<header class="hero p-4 p-lg-5 mb-4"><a class="back-link" href="index.html">&larr; All guides</a><div class="small text-uppercase fw-bold opacity-75">Bootstrap 6 · Subject Guide</div><h1 class="display-5 fw-bold mt-2">Colors & Themes</h1><p class="lead mb-0">Semantic colors, theme variants, and color-scheme guidance.</p></header>
+<div class="alert alert-warning"><strong>Version note:</strong> Bootstrap 6 is alpha. These guides use the 6.0.0-alpha.1 CDN. Some class names from your notes may require a custom build or project CSS.</div>
+<section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">1. Semantic colors</h2><p>Use colors consistently to communicate status and importance.</p><div class="row g-3"><div class="col-6 md:col-3"><div class="bg-primary text-white rounded p-3">Primary</div></div><div class="col-6 md:col-3"><div class="bg-success text-white rounded p-3">Success</div></div><div class="col-6 md:col-3"><div class="bg-warning text-dark rounded p-3">Warning</div></div><div class="col-6 md:col-3"><div class="bg-danger text-white rounded p-3">Danger</div></div></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;div class="bg-primary text-white"&gt;Primary&lt;/div&gt;
+&lt;div class="bg-success text-white"&gt;Success&lt;/div&gt;
+&lt;div class="bg-warning text-dark"&gt;Warning&lt;/div&gt;
+&lt;div class="bg-danger text-white"&gt;Danger&lt;/div&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">2. Theme success</h2><p>Your notes include <code>theme-success</code>. This may be a custom theme utility. If your build does not define it, use standard Bootstrap success components or add your own CSS.</p><div class="alert alert-success">Success: changes saved.</div><div class="alert alert-warning">Warning: review this item.</div><div class="alert alert-danger mb-0">Error: operation failed.</div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;div class="theme-success"&gt;Saved successfully.&lt;/div&gt;
+
+&lt;!-- Standard Bootstrap alternative --&gt;
+&lt;div class="alert alert-success"&gt;Saved successfully.&lt;/div&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">3. Color scheme</h2><p>CSS <code>color-scheme</code> influences browser-rendered controls and widgets in light or dark contexts. Utility names may vary by build.</p><div class="demo-box"><label class="form-label" for="schemeDate">Native date field sample</label><input type="date" class="form-control" id="schemeDate"></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>/* CSS option */
+.light-surface { color-scheme: light; }
+.dark-surface  { color-scheme: dark; }
+
+/* Use a project utility only if it exists in your build. */</code></pre></div></section><footer class="border-top pt-3 mt-5 small text-secondary">See the <a href="https://getbootstrap.com/docs/6.0/">official Bootstrap 6 documentation</a>. Keep CSS and JavaScript versions aligned.</footer>
+</main><script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"></script></body></html>

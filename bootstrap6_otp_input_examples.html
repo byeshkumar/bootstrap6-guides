@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="color-scheme" content="light">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap 6 OTP Input — Examples & Guide</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/premium.css">
+</head>
+<body>
+<main class="container py-4 py-lg-5">
+  <header class="hero p-4 p-lg-5 mb-4 mb-lg-5">
+    <a class="back-link" href="index.html">&larr; All guides</a>
+    <span class="pill mb-3">BOOTSTRAP 6 · ALPHA 1</span>
+    <h1 class="display-5 fw-bold mb-3">OTP Input Examples</h1>
+    <p class="lead mb-3">Interactive one-time password, PIN, and verification-code examples with ready-to-copy code.</p>
+    <p class="mb-0 small opacity-75">Based on the official Bootstrap 6 OTP Input documentation. Requires JavaScript and an internet connection for the CDN.</p>
+  </header>
+
+  <div class="alert alert-warning mb-4">
+    <strong>Version note:</strong> Bootstrap 6 is currently an alpha release. This page uses the Bootstrap 6.0.0-alpha.1 CDN. Verify the exact version against your project's installed files before deploying.
+  </div>
+
+  <section class="mb-5">
+    <h2 class="section-title mb-3">How it works</h2>
+    <div class="demo-card bg-white p-4">
+      <p>Bootstrap's OTP component uses <strong>one real text input</strong> and renders its value as separate visual slots. This is more accessible than creating a separate input for every digit and supports paste, keyboard editing, autofill, and password managers.</p>
+      <ul>
+        <li>Wrap one input in a <code>&lt;div class="otp" data-bs-otp&gt;</code>.</li>
+        <li>Set <code>maxlength</code> to define the number of slots.</li>
+        <li>Use <code>data-bs-type</code>, <code>data-bs-mask</code>, and <code>data-bs-groups</code> to customize behavior.</li>
+        <li>Use a label or <code>aria-label</code> to provide an accessible name.</li>
+      </ul>
+      <div class="code-label mb-2">Basic HTML</div>
+      <pre><code>&lt;div class="otp" data-bs-otp&gt;
+  &lt;input type="text" class="otp-input" maxlength="6"
+         aria-label="Verification code"
+         autocomplete="one-time-code"&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <h2 class="section-title mb-3">Interactive examples</h2>
+    <div class="row g-4">
+      <div class="col-12 md:col-6">
+        <article class="demo-card bg-white p-4">
+          <h2><span class="step-no">1</span>Connected inputs</h2>
+          <p class="hint">Connected slots share borders and look like a single segmented control.</p>
+          <div class="otp otp-connected" data-bs-otp>
+            <input type="text" class="otp-input" maxlength="6" aria-label="Connected verification code" autocomplete="one-time-code">
+          </div>
+          <div class="code-label mt-4 mb-2">HTML</div>
+          <pre><code>&lt;div class="otp otp-connected" data-bs-otp&gt;
+  &lt;input type="text" class="otp-input" maxlength="6"
+         aria-label="Verification code"
+         autocomplete="one-time-code"&gt;
+&lt;/div&gt;</code></pre>
+        </article>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <article class="demo-card bg-white p-4">
+          <h2><span class="step-no">2</span>Four-digit PIN</h2>
+          <p class="hint">Set <code>maxlength="4"</code> for a four-slot PIN.</p>
+          <div class="otp otp-connected" data-bs-otp>
+            <input type="text" class="otp-input" maxlength="4" aria-label="Four digit PIN" autocomplete="one-time-code">
+          </div>
+          <div class="code-label mt-4 mb-2">HTML</div>
+          <pre><code>&lt;div class="otp otp-connected" data-bs-otp&gt;
+  &lt;input type="text" class="otp-input" maxlength="4"
+         aria-label="PIN" autocomplete="one-time-code"&gt;
+&lt;/div&gt;</code></pre>
+          <p class="hint mb-0">For security, validate the PIN on the server; don't rely on the UI alone.</p>
+        </article>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <article class="demo-card bg-white p-4">
+          <h2><span class="step-no">3</span>With separator</h2>
+          <p class="hint">Split a six-digit code into groups of three, such as <code>123·456</code>. The separator is visual only.</p>
+          <div class="otp" data-bs-otp data-bs-groups="[3,3]">
+            <input type="text" class="otp-input" maxlength="6" aria-label="Code with separator" autocomplete="one-time-code">
+          </div>
+          <div class="code-label mt-4 mb-2">HTML</div>
+          <pre><code>&lt;div class="otp" data-bs-otp data-bs-groups="[3,3]"&gt;
+  &lt;input type="text" class="otp-input" maxlength="6"
+         aria-label="Verification code"
+         autocomplete="one-time-code"&gt;
+&lt;/div&gt;</code></pre>
+          <p class="hint mb-0">Set a custom separator with <code>data-bs-separator="-"</code>.</p>
+        </article>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <article class="demo-card bg-white p-4">
+          <h2><span class="step-no">4</span>Alphanumeric and masking</h2>
+          <p class="hint">Alphanumeric mode accepts letters and digits. Mask mode visually hides the entered characters.</p>
+          <label class="form-label">Alphanumeric code</label>
+          <div class="otp otp-connected mb-3" data-bs-otp data-bs-type="alphanumeric">
+            <input type="text" class="otp-input" maxlength="6" aria-label="Alphanumeric code" autocomplete="one-time-code">
+          </div>
+          <label class="form-label">Masked numeric code</label>
+          <div class="otp otp-connected" data-bs-otp data-bs-mask="true">
+            <input type="text" class="otp-input" maxlength="6" aria-label="Masked verification code" autocomplete="one-time-code">
+          </div>
+          <div class="code-label mt-4 mb-2">HTML</div>
+          <pre><code>&lt;!-- Letters and digits --&gt;
+&lt;div class="otp otp-connected" data-bs-otp
+     data-bs-type="alphanumeric"&gt;
+  &lt;input type="text" class="otp-input" maxlength="6"
+         aria-label="Alphanumeric code"&gt;
+&lt;/div&gt;
+
+&lt;!-- Mask the displayed characters --&gt;
+&lt;div class="otp otp-connected" data-bs-otp data-bs-mask="true"&gt;
+  &lt;input type="text" class="otp-input" maxlength="6"
+         aria-label="Masked code"&gt;
+&lt;/div&gt;</code></pre>
+        </article>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <article class="demo-card bg-white p-4">
+          <h2><span class="step-no">5</span>Validation</h2>
+          <p class="hint">Use <code>.is-valid</code> or <code>.is-invalid</code> on the OTP wrapper to show status styles.</p>
+          <label class="form-label">Valid example</label>
+          <div class="otp otp-connected is-valid mb-3" data-bs-otp>
+            <input type="text" class="otp-input" maxlength="6" value="123456" aria-label="Valid verification code">
+          </div>
+          <label class="form-label">Invalid example</label>
+          <div class="otp otp-connected is-invalid" data-bs-otp>
+            <input type="text" class="otp-input" maxlength="6" value="123" aria-label="Invalid verification code">
+          </div>
+          <div class="code-label mt-4 mb-2">HTML</div>
+          <pre><code>&lt;div class="otp otp-connected is-valid" data-bs-otp&gt;
+  &lt;input type="text" class="otp-input" maxlength="6"
+         value="123456" aria-label="Verification code"&gt;
+&lt;/div&gt;
+
+&lt;div class="otp otp-connected is-invalid" data-bs-otp&gt;
+  &lt;input type="text" class="otp-input" maxlength="6"
+         value="123" aria-label="Verification code"&gt;
+&lt;/div&gt;</code></pre>
+          <p class="hint mb-0">The classes display UI state. Your application must determine whether the code is actually valid.</p>
+        </article>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <article class="demo-card bg-white p-4">
+          <h2><span class="step-no">6</span>With form label</h2>
+          <p class="hint">Use a real label connected with <code>for</code> and <code>id</code>, and describe the field with <code>aria-describedby</code>.</p>
+          <div class="vstack gap-2">
+            <label class="form-label" for="labelledOtp">Verification code</label>
+            <div class="otp" data-bs-otp>
+              <input type="text" class="otp-input" id="labelledOtp" maxlength="6" aria-describedby="otpHelp" autocomplete="one-time-code">
+            </div>
+            <div id="otpHelp" class="form-text">Enter the 6-digit code sent to your phone.</div>
+          </div>
+          <div class="code-label mt-4 mb-2">HTML</div>
+          <pre><code>&lt;div class="vstack gap-2"&gt;
+  &lt;label class="form-label" for="otpCode"&gt;Verification code&lt;/label&gt;
+  &lt;div class="otp" data-bs-otp&gt;
+    &lt;input type="text" class="otp-input" id="otpCode"
+           maxlength="6" aria-describedby="otpHelp"
+           autocomplete="one-time-code"&gt;
+  &lt;/div&gt;
+  &lt;div id="otpHelp" class="form-text"&gt;
+    Enter the 6-digit code sent to your phone.
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <h2 class="section-title mb-3">Try validation and read the value</h2>
+    <div class="demo-card bg-white p-4">
+      <p>Enter a six-digit code and click <strong>Check code</strong>. For this demonstration only, <code>123456</code> is considered valid.</p>
+      <form id="otpDemoForm" class="vstack gap-3">
+        <div>
+          <label class="form-label" for="otpValidationDemo">One-time password</label>
+          <div id="otpValidationWrapper" class="otp otp-connected" data-bs-otp>
+            <input type="text" class="otp-input" id="otpValidationDemo" maxlength="6" aria-describedby="otpValidationHelp" autocomplete="one-time-code" required>
+          </div>
+          <div id="otpValidationHelp" class="form-text">Demo code: 123456</div>
+          <div id="otpValidationFeedback" class="status mt-2" aria-live="polite"></div>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-primary" type="submit">Check code</button>
+          <button class="btn btn-outline-secondary" type="button" id="clearOtp">Clear</button>
+        </div>
+      </form>
+      <div class="code-label mt-4 mb-2">JavaScript</div>
+      <pre><code>const wrapper = document.querySelector('#otpValidationWrapper');
+const otp = bootstrap.OtpInput.getOrCreateInstance(wrapper);
+
+document.querySelector('#otpDemoForm').addEventListener('submit', event => {
+  event.preventDefault();
+  const value = otp.getValue();
+
+  if (value.length !== 6) {
+    wrapper.classList.remove('is-valid');
+    wrapper.classList.add('is-invalid');
+    // Show an error message.
+    return;
+  }
+
+  // Send value to your server to verify the real OTP.
+  console.log('OTP entered:', value);
+});</code></pre>
+      <p class="hint mb-0">The demo compares against a sample value in browser code only. Never use a client-side comparison as real OTP security.</p>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <h2 class="section-title mb-3">Quick reference</h2>
+    <div class="demo-card bg-white p-4">
+      <div class="table-responsive">
+        <table class="table table-striped align-middle mb-0">
+          <thead><tr><th>Attribute / API</th><th>Purpose</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><code>data-bs-otp</code></td><td>Initializes OTP behavior.</td><td><code>&lt;div class="otp" data-bs-otp&gt;</code></td></tr>
+            <tr><td><code>maxlength</code></td><td>Sets the number of slots by default.</td><td><code>maxlength="6"</code></td></tr>
+            <tr><td><code>data-bs-length</code></td><td>Explicit number of slots.</td><td><code>data-bs-length="6"</code></td></tr>
+            <tr><td><code>data-bs-type</code></td><td>Allowed character type.</td><td><code>numeric</code>, <code>alphanumeric</code>, <code>alpha</code></td></tr>
+            <tr><td><code>data-bs-mask="true"</code></td><td>Display a dot for each character.</td><td><code>data-bs-mask="true"</code></td></tr>
+            <tr><td><code>data-bs-groups</code></td><td>Split slots into groups.</td><td><code>data-bs-groups="[3,3]"</code></td></tr>
+            <tr><td><code>data-bs-separator</code></td><td>Choose the group separator.</td><td><code>data-bs-separator="-"</code></td></tr>
+            <tr><td><code>.otp-connected</code></td><td>Join slots into one connected field.</td><td><code>class="otp otp-connected"</code></td></tr>
+            <tr><td><code>.is-valid / .is-invalid</code></td><td>Show success/error styling.</td><td>Applied to the OTP wrapper</td></tr>
+            <tr><td><code>getValue()</code></td><td>Read the current code.</td><td><code>otp.getValue()</code></td></tr>
+            <tr><td><code>setValue(value)</code></td><td>Set the code programmatically.</td><td><code>otp.setValue("654321")</code></td></tr>
+            <tr><td><code>clear()</code></td><td>Clear the code and focus the field.</td><td><code>otp.clear()</code></td></tr>
+            <tr><td><code>complete.bs.otpInput</code></td><td>Fires when all slots are filled.</td><td><code>wrapper.addEventListener(...)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <h2 class="section-title mb-3">Listen for completion</h2>
+    <div class="demo-card bg-white p-4">
+      <p>Use the completion event when you want to enable a button or submit the code once all slots have been filled.</p>
+      <pre><code>const wrapper = document.querySelector('#otpWrapper');
+
+wrapper.addEventListener('complete.bs.otpInput', event => {
+  console.log('OTP complete:', event.value);
+  // Submit to your server-side verification endpoint.
+});
+
+wrapper.addEventListener('input.bs.otpInput', event => {
+  console.log('Current OTP:', event.value);
+});</code></pre>
+    </div>
+  </section>
+
+  <footer class="text-secondary small pt-3 border-top">
+    <p class="mb-1">Reference: <a href="https://getbootstrap.com/docs/6.0/forms/otp-input/" target="_blank" rel="noopener">Official Bootstrap 6 OTP Input documentation</a>.</p>
+    <p class="mb-0">Bootstrap 6 Alpha may change before stable release. Keep the CSS and JavaScript versions aligned.</p>
+  </footer>
+</main>
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Demonstration only: client-side sample check, not production authentication.
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.getElementById('otpValidationWrapper');
+    const input = document.getElementById('otpValidationDemo');
+    const feedback = document.getElementById('otpValidationFeedback');
+    const form = document.getElementById('otpDemoForm');
+
+    // Use the Bootstrap plugin API when available.
+    const otp = window.bootstrap?.OtpInput?.getOrCreateInstance(wrapper);
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const value = otp ? otp.getValue() : input.value;
+
+      wrapper.classList.remove('is-valid', 'is-invalid');
+      if (value === '123456') {
+        wrapper.classList.add('is-valid');
+        feedback.className = 'status mt-2 text-success';
+        feedback.textContent = 'Demo success: code accepted.';
+      } else {
+        wrapper.classList.add('is-invalid');
+        feedback.className = 'status mt-2 text-danger';
+        feedback.textContent = value.length === 6
+          ? 'Demo error: code not recognised.'
+          : 'Enter all 6 digits.';
+      }
+    });
+
+    document.getElementById('clearOtp').addEventListener('click', () => {
+      if (otp) otp.clear();
+      else input.value = '';
+      wrapper.classList.remove('is-valid', 'is-invalid');
+      feedback.textContent = '';
+      input.focus();
+    });
+  });
+</script>
+</body>
+</html>

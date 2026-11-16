@@ -1,0 +1,45 @@
+<!doctype html><html lang="en" data-bs-theme="light"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Layout & Responsive Grid</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/premium.css"></head><body><main class="container py-4 py-lg-5">
+<header class="hero p-4 p-lg-5 mb-4"><a class="back-link" href="index.html">&larr; All guides</a><div class="small text-uppercase fw-bold opacity-75">Bootstrap 6 · Subject Guide</div><h1 class="display-5 fw-bold mt-2">Layout & Responsive Grid</h1><p class="lead mb-0">Breakpoints, columns, row-cols, wrapping, alignment, and gutters.</p></header>
+<div class="alert alert-warning"><strong>Version note:</strong> Bootstrap 6 is alpha. These guides use the 6.0.0-alpha.1 CDN. Some class names from your notes may require a custom build or project CSS.</div>
+<section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">1. Breakpoints</h2><p>Use responsive column classes to change layout at viewport widths. This guide follows the breakpoint prefixes supplied in your notes.</p><div class="table-responsive"><table class="table table-striped"><thead><tr><th>Breakpoint</th><th>Class infix</th><th>Width</th><th>Typical device</th></tr></thead><tbody>
+<tr><td>Extra small</td><td><code>col-</code></td><td>&lt;576px</td><td>Portrait phones</td></tr><tr><td>Small</td><td><code>sm:col-</code></td><td>≥576px</td><td>Landscape phones</td></tr><tr><td>Medium</td><td><code>md:col-</code></td><td>≥768px</td><td>Tablets</td></tr><tr><td>Large</td><td><code>lg:col-</code></td><td>≥1024px</td><td>Desktops</td></tr><tr><td>Extra large</td><td><code>xl:col-</code></td><td>≥1280px</td><td>Large desktops</td></tr><tr><td>Extra extra large</td><td><code>2xl:col-</code></td><td>≥1536px</td><td>Very large desktops</td></tr></tbody></table></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;div class="row"&gt;
+  &lt;div class="col-12 md:col-6 xl:col-4"&gt;Card 1&lt;/div&gt;
+  &lt;div class="col-12 md:col-6 xl:col-4"&gt;Card 2&lt;/div&gt;
+  &lt;div class="col-12 md:col-6 xl:col-4"&gt;Card 3&lt;/div&gt;
+&lt;/div&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">2. Equal, specific, and row columns</h2><p>Use <code>col</code> for equal-width columns, <code>col-6</code> for half-width columns, and <code>row-cols-*</code> to set how many columns appear in each row.</p><div class="demo-box"><div class="row g-2"><div class="col"><div class="bg-primary-subtle p-3 rounded text-center">col</div></div><div class="col"><div class="bg-primary-subtle p-3 rounded text-center">col</div></div></div></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;!-- Equal width --&gt;
+&lt;div class="row"&gt;&lt;div class="col"&gt;A&lt;/div&gt;&lt;div class="col"&gt;B&lt;/div&gt;&lt;/div&gt;
+
+&lt;!-- Specific width --&gt;
+&lt;div class="row"&gt;&lt;div class="col-6"&gt;Half&lt;/div&gt;&lt;div class="col-6"&gt;Half&lt;/div&gt;&lt;/div&gt;
+
+&lt;!-- Two columns per row --&gt;
+&lt;div class="row row-cols-2"&gt;&lt;div class="col"&gt;A&lt;/div&gt;&lt;div class="col"&gt;B&lt;/div&gt;&lt;/div&gt;
+
+&lt;!-- Responsive columns --&gt;
+&lt;div class="row row-cols-1 sm:row-cols-2 md:row-cols-4"&gt;...&lt;/div&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">3. Wrapping and forced line break</h2><p>Columns wrap automatically when the row becomes full. Add a full-width element when you need to force the next columns onto a new line.</p>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;div class="row"&gt;
+  &lt;div class="col-6"&gt;First&lt;/div&gt;
+  &lt;div class="col-6"&gt;Second&lt;/div&gt;
+  &lt;div class="w-100"&gt;&lt;/div&gt; &lt;!-- force new line --&gt;
+  &lt;div class="col-6"&gt;Third&lt;/div&gt;
+  &lt;div class="col-6"&gt;Fourth&lt;/div&gt;
+&lt;/div&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">4. Vertical alignment</h2><p>Align row children at the top, center, or bottom using the alignment utility.</p><div class="row g-3"><div class="col-4"><div class="demo-box d-flex align-items-start gap-2" style="height:100px"><span class="badge text-bg-primary">Start</span><span>Two<br>lines</span></div></div><div class="col-4"><div class="demo-box d-flex align-items-center gap-2" style="height:100px"><span class="badge text-bg-success">Center</span><span>Two<br>lines</span></div></div><div class="col-4"><div class="demo-box d-flex align-items-end gap-2" style="height:100px"><span class="badge text-bg-warning">End</span><span>Two<br>lines</span></div></div></div>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;div class="row align-items-start"&gt;...&lt;/div&gt;
+&lt;div class="row align-items-center"&gt;...&lt;/div&gt;
+&lt;div class="row align-items-end"&gt;...&lt;/div&gt;</code></pre></div></section><section class="mb-4"><div class="card-demo bg-white p-4">
+<h2 class="h4">5. Gutters</h2><p>Gutter width is typically 1.5rem overall (.75rem on each side). Use <code>g-*</code> for both axes, <code>gx-*</code> horizontally, and <code>gy-*</code> vertically.</p>
+<div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Ready-to-use code</div><pre><code>&lt;div class="row g-3"&gt;...&lt;/div&gt;  &lt;!-- horizontal + vertical --&gt;
+&lt;div class="row gx-4"&gt;...&lt;/div&gt; &lt;!-- horizontal only --&gt;
+&lt;div class="row gy-2"&gt;...&lt;/div&gt; &lt;!-- vertical only --&gt;</code></pre></div></section><footer class="border-top pt-3 mt-5 small text-secondary">See the <a href="https://getbootstrap.com/docs/6.0/">official Bootstrap 6 documentation</a>. Keep CSS and JavaScript versions aligned.</footer>
+</main><script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"></script></body></html>
