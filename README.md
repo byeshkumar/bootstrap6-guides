@@ -19,6 +19,7 @@ Each topic is provided as an independent, fully-styled HTML reference with copy-
 | **OTP Input Examples** | `bootstrap6_otp_input_examples.html` | Multi-digit verification codes, PIN entry, masking, separators |
 | **Datepicker Examples** | `bootstrap6_datepicker_examples.html` | Native calendar, date ranges, multi-month pickers, formatting |
 | **v5 → v6 Migration** | `bootstrap6_v5_to_v6_migration.html` | Complete checklist of class renames, ESM migration, Sass `@use` changes |
+| **AI Support & Agent Tools** | `bootstrap6_ai_support.html` | Machine-readable docs (`llms.txt`), Agent Skills CLI, and anti-hallucination prompt generator |
 
 ---
 
@@ -37,20 +38,6 @@ python -m http.server 8000
 Then navigate to `http://localhost:8000` in your browser.
 
 > **Browser Requirement:** Bootstrap 6 targets modern browsers utilizing native web platform features (`<dialog>`, `:has()`, `container queries`, ESM modules). Recommended: Chrome 130+, Edge 130+, Firefox 132+, or Safari 18+.
-
----
-
-## 🌐 Hosting on GitHub Pages
-
-Because this repository contains static HTML/CSS files with `index.html` at the root, you can publish it to GitHub Pages in seconds:
-
-1. Push this repository to your GitHub account.
-2. In your GitHub repository, navigate to **Settings** > **Pages** (under "Code and automation").
-3. Under **Build and deployment**:
-   - **Source**: `Deploy from a branch`
-   - **Branch**: Select `main` and `/ (root)` folder
-4. Click **Save**.
-5. GitHub will deploy your site and provide a public URL (e.g., `https://<username>.github.io/<repo-name>/`).
 
 ---
 

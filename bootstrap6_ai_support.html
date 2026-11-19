@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="color-scheme" content="light">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Bootstrap 6 · AI Support & Agent Tools</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/premium.css">
+</head>
+<body>
+<main class="container py-4 py-lg-5">
+
+  <header class="hero p-4 p-lg-5 mb-4">
+    <a class="back-link" href="index.html">&larr; All guides</a>
+    <span class="pill mb-3">BOOTSTRAP 6 · AI & AGENTS</span>
+    <h1 class="display-5 fw-bold mb-3">AI Support & Agent Tools</h1>
+    <p class="lead mb-3">Official machine-readable documentation, Agent Skills CLI, and anti-hallucination prompts for building with Bootstrap 6 and LLMs.</p>
+    <p class="mb-0 small opacity-75">Written against Bootstrap 6.0.0-alpha.1. Designed for LLMs, Claude Code, Cursor, Copilot, and agent workflows.</p>
+  </header>
+
+  <div class="alert alert-warning">
+    <strong>Documentation reference:</strong> Bootstrap 6 introduces first-class AI integration directly into the documentation and release pipeline. See the <a href="https://getbootstrap.com/docs/6.0/getting-started/ai/" target="_blank" rel="noopener" class="alert-link">official Bootstrap 6 AI guide</a>.
+  </div>
+
+  <!-- 1. LLM-Ready Documentation -->
+  <section class="mb-4">
+    <div class="card-demo bg-white p-4">
+      <h2 class="h4 section-title mb-3">1. LLM-Ready Documentation (llms.txt)</h2>
+      <p class="hint">Bootstrap publishes standardized markdown-based documentation files designed specifically for AI tools, coding assistants, and context windows.</p>
+
+      <div class="table-responsive mb-4">
+        <table class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th style="width: 25%">File Endpoint</th>
+              <th style="width: 45%">Description</th>
+              <th style="width: 30%">Best Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>/llms.txt</code></td>
+              <td>A curated index of all official documentation pages, organized by topic with titles, paths, and summaries.</td>
+              <td>Agent tool lookups, Cursor docs index, quick search without filling context window.</td>
+            </tr>
+            <tr>
+              <td><code>/llms-full.txt</code></td>
+              <td>The complete text of the entire Bootstrap 6 documentation concatenated into a single plain-text resource.</td>
+              <td>Deep context ingestion, offline LLM embeddings, comprehensive prompt uploads.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Direct URLs for your AI Prompts</div>
+      <pre><code># Curated documentation index:
+https://getbootstrap.com/llms.txt
+
+# Full concatenated documentation:
+https://getbootstrap.com/llms-full.txt</code></pre>
+
+      <div class="demo-box mt-3">
+        <h3 class="h6 fw-bold mb-2">How to use in your favorite AI tool:</h3>
+        <ul class="mb-0 small text-secondary">
+          <li><strong>Cursor:</strong> Add <code>https://getbootstrap.com/llms.txt</code> under <em>Cursor Settings &gt; Features &gt; Docs</em>.</li>
+          <li><strong>ChatGPT / Claude:</strong> Paste the link or download <code>llms-full.txt</code> to attach to your custom project instructions.</li>
+          <li><strong>CLI / Copilot:</strong> Point system instructions to the remote URL to ensure the model uses v6 syntax rather than hallucinating v5 or v4 patterns.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Agent Skills CLI -->
+  <section class="mb-4">
+    <div class="card-demo bg-white p-4">
+      <h2 class="h4 section-title mb-3">2. Official Coding Agent Skills</h2>
+      <p class="hint">Bootstrap provides pre-packaged agent skills—actionable playbooks that teach autonomous AI agents how to correctly write, style, test, and migrate Bootstrap 6 projects.</p>
+
+      <div class="demo-box mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="small text-uppercase fw-bold text-secondary">Install All Official Skills via CLI</span>
+        </div>
+        <pre class="mb-0"><code>npx skills add twbs/bootstrap</code></pre>
+      </div>
+
+      <h3 class="h5 mb-3">Available Official Skills Catalog</h3>
+      <div class="row g-3">
+        <div class="col-12 md:col-6">
+          <div class="p-3 border rounded bg-light-subtle h-100">
+            <div class="fw-bold text-primary font-monospace small">bootstrap-v6-install</div>
+            <p class="small text-secondary mb-0 mt-1">Adds Bootstrap 6 to projects via CDN or package managers; sets up initial HTML templates and module scripts.</p>
+          </div>
+        </div>
+        <div class="col-12 md:col-6">
+          <div class="p-3 border rounded bg-light-subtle h-100">
+            <div class="fw-bold text-primary font-monospace small">bootstrap-v5-v6-migration</div>
+            <p class="small text-secondary mb-0 mt-1">Audits and refactors v5 code: transforms breakpoint infixes (<code>col-md-6</code> &rarr; <code>md:col-6</code>), dialogs, and ESM imports.</p>
+          </div>
+        </div>
+        <div class="col-12 md:col-6">
+          <div class="p-3 border rounded bg-light-subtle h-100">
+            <div class="fw-bold text-primary font-monospace small">bootstrap-v4-v6-migration</div>
+            <p class="small text-secondary mb-0 mt-1">Handles legacy upgrades jumping directly from Bootstrap 4 to Bootstrap 6 in a structured, verified sequence.</p>
+          </div>
+        </div>
+        <div class="col-12 md:col-6">
+          <div class="p-3 border rounded bg-light-subtle h-100">
+            <div class="fw-bold text-primary font-monospace small">bootstrap-component</div>
+            <p class="small text-secondary mb-0 mt-1">Generates compliant component markup, modifier variants, and CSS token overrides following Bootstrap 6 conventions.</p>
+          </div>
+        </div>
+        <div class="col-12 md:col-6">
+          <div class="p-3 border rounded bg-light-subtle h-100">
+            <div class="fw-bold text-primary font-monospace small">bootstrap-component-js</div>
+            <p class="small text-secondary mb-0 mt-1">Integrates TypeScript/ESM behavior, extends <code>BaseComponent</code>, wires data attributes, and integrates Floating UI.</p>
+          </div>
+        </div>
+        <div class="col-12 md:col-6">
+          <div class="p-3 border rounded bg-light-subtle h-100">
+            <div class="fw-bold text-primary font-monospace small">bootstrap-color-system</div>
+            <p class="small text-secondary mb-0 mt-1">Configures Sass color maps, CSS custom properties, light/dark themes, and semantic color scales.</p>
+          </div>
+        </div>
+        <div class="col-12 md:col-6">
+          <div class="p-3 border rounded bg-light-subtle h-100">
+            <div class="fw-bold text-primary font-monospace small">bootstrap-utility-api</div>
+            <p class="small text-secondary mb-0 mt-1">Defines custom utility classes, extends the utility map, and trims generated CSS bundles.</p>
+          </div>
+        </div>
+        <div class="col-12 md:col-6">
+          <div class="p-3 border rounded bg-light-subtle h-100">
+            <div class="fw-bold text-primary font-monospace small">bootstrap-vite / webpack / parcel</div>
+            <p class="small text-secondary mb-0 mt-1">Configures modern bundlers, Sass compilation, and tree-shaking for production deployments.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Manual SKILL.md Usage -->
+  <section class="mb-4">
+    <div class="card-demo bg-white p-4">
+      <h2 class="h4 section-title mb-3">3. Manual Ingestion (Without CLI)</h2>
+      <p class="hint">If your AI assistant or agent does not use the Skills CLI, you can point it directly to the official <code>SKILL.md</code> files located in the Bootstrap repository.</p>
+
+      <div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Repository Skill Paths</div>
+      <pre><code># Base URL in the official repository:
+https://github.com/twbs/bootstrap/tree/main/skills/
+
+# Example: Migration Skill direct file:
+https://raw.githubusercontent.com/twbs/bootstrap/main/skills/bootstrap-v5-v6-migration/SKILL.md</code></pre>
+      <p class="small text-muted mb-0">Copy the contents of the relevant <code>SKILL.md</code> into your agent prompt or project system rules (e.g. <code>.cursorrules</code>, <code>CLAUDE.md</code>, or <code>AGENTS.md</code>).</p>
+    </div>
+  </section>
+
+  <!-- 4. Anti-Hallucination Guardrails -->
+  <section class="mb-4">
+    <div class="card-demo bg-white p-4">
+      <h2 class="h4 section-title mb-3">4. Anti-Hallucination Rules for Bootstrap 6</h2>
+      <p class="hint">Because LLMs are heavily trained on Bootstrap 4 and 5, they frequently hallucinate deprecated classes. Add these 4 golden rules to your AI instructions:</p>
+
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 25%">Topic</th>
+              <th style="width: 35%">What AI Tend to Hallucinate (v5)</th>
+              <th style="width: 40%">Correct Bootstrap 6 Syntax</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Responsive Utilities</strong></td>
+              <td><code>col-md-6</code>, <code>d-lg-none</code>, <code>text-sm-center</code></td>
+              <td><strong>Prefix with colon:</strong> <code>md:col-6</code>, <code>lg:d-none</code>, <code>sm:text-center</code></td>
+            </tr>
+            <tr>
+              <td><strong>Overlays & Modals</strong></td>
+              <td><code>modal</code>, <code>offcanvas</code>, <code>dropdown</code></td>
+              <td><strong>Native elements:</strong> <code>dialog</code>, <code>drawer</code>, <code>menu</code></td>
+            </tr>
+            <tr>
+              <td><strong>Button Variants</strong></td>
+              <td><code>btn-primary</code>, <code>btn-outline-danger</code></td>
+              <td><strong>Variant + theme token:</strong> <code>btn-solid theme-primary</code>, <code>btn-outline theme-danger</code></td>
+            </tr>
+            <tr>
+              <td><strong>JavaScript Bundle</strong></td>
+              <td><code>&lt;script src="bootstrap.bundle.min.js"&gt;</code>, <code>window.bootstrap</code></td>
+              <td><strong>ESM-Only:</strong> <code>&lt;script type="module" src="..."&gt;</code>, <code>import { Dialog } from 'bootstrap'</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="small text-uppercase fw-bold text-secondary mt-3 mb-2">Copy-Ready System Prompt Guardrail</div>
+      <pre><code>You are an expert Bootstrap 6 developer. Follow official Bootstrap 6 conventions:
+1. Always use responsive prefix syntax (e.g., md:col-6, lg:d-flex, not col-md-6).
+2. Use modern component names: Dialog instead of Modal, Drawer instead of Offcanvas, Menu instead of Dropdown.
+3. Use button variants with theme tokens: btn-solid theme-primary, not btn-primary.
+4. JavaScript is ESM-only. Always use &lt;script type="module"&gt; and avoid legacy window.bootstrap.
+5. Refer to official docs at https://getbootstrap.com/llms.txt when uncertain.</code></pre>
+    </div>
+  </section>
+
+  <!-- 5. Interactive Prompt Generator -->
+  <section class="mb-4">
+    <div class="card-demo bg-white p-4">
+      <h2 class="h4 section-title mb-3">5. Interactive AI Prompt Generator</h2>
+      <p class="hint">Select your task below to generate a calibrated, hallucination-resistant prompt tailored for ChatGPT, Claude, or Cursor.</p>
+
+      <div class="demo-box p-3 bg-light rounded">
+        <div class="row g-3 mb-3">
+          <div class="col-12 md:col-6">
+            <label class="form-label fw-bold small" for="taskSelect">Target Task</label>
+            <select class="form-select" id="taskSelect">
+              <option value="migrate">Migrate Bootstrap 5 component to Bootstrap 6</option>
+              <option value="layout">Create Responsive Grid Layout (Prefix syntax)</option>
+              <option value="dialog">Build Native HTML5 Dialog / Drawer Component</option>
+              <option value="form">Design Form with OTP Input & Datepicker</option>
+            </select>
+          </div>
+          <div class="col-12 md:col-6">
+            <label class="form-label fw-bold small" for="toolSelect">AI Coding Tool</label>
+            <select class="form-select" id="toolSelect">
+              <option value="cursor">Cursor / Claude Code</option>
+              <option value="chatgpt">ChatGPT / Web AI</option>
+              <option value="copilot">GitHub Copilot</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="form-label fw-bold small" for="promptOutput">Generated Prompt (Click copy to use in your AI chat)</label>
+        <textarea class="form-control font-monospace small mb-3" id="promptOutput" rows="6" readonly></textarea>
+        <button class="btn btn-primary btn-sm" id="copyPromptBtn" type="button">Copy Generated Prompt</button>
+        <span class="small text-success ms-2 d-none" id="copyFeedback">&check; Copied to clipboard!</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-top pt-3 mt-5 small text-secondary">
+    <p class="mb-1">Reference: <a href="https://getbootstrap.com/docs/6.0/getting-started/ai/" target="_blank" rel="noopener">Official Bootstrap 6 AI Documentation</a> &middot; <a href="https://getbootstrap.com/llms.txt" target="_blank" rel="noopener">llms.txt</a> &middot; <a href="https://getbootstrap.com/llms-full.txt" target="_blank" rel="noopener">llms-full.txt</a></p>
+    <p class="mb-0">Keep AI prompts updated as Bootstrap 6 progresses through release milestones.</p>
+  </footer>
+
+</main>
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const taskSelect = document.getElementById('taskSelect');
+  const toolSelect = document.getElementById('toolSelect');
+  const promptOutput = document.getElementById('promptOutput');
+  const copyBtn = document.getElementById('copyPromptBtn');
+  const copyFeedback = document.getElementById('copyFeedback');
+
+  const templates = {
+    migrate: `Please refactor this HTML/CSS from Bootstrap 5 to Bootstrap 6.0.0-alpha.1.
+Enforce Bootstrap 6 rules:
+- Update responsive utilities to prefix notation (e.g. col-md-6 -> md:col-6, d-none d-lg-block -> d-none lg:d-block).
+- Replace Modal/Offcanvas with native Dialog/Drawer syntax.
+- Update button styles to variant + theme tokens (btn-solid theme-primary).
+- Keep script tags as type="module" since JS is ESM-only.
+- Refer to https://getbootstrap.com/llms.txt for class definitions.
+
+Here is my code to upgrade:
+`,
+    layout: `Create a responsive layout using Bootstrap 6.0.0-alpha.1 grid rules:
+- Use colon-prefixed responsive utilities: sm:col-*, md:col-*, lg:col-*, xl:col-*.
+- Use row-cols with responsive prefixes (e.g. row-cols-1 md:row-cols-3).
+- Include gutter spacing with g-3 or gy-4.
+- Do NOT use deprecated Bootstrap 5 infixes like col-md-6.
+- Keep the markup clean, accessible, and semantic.
+`,
+    dialog: `Build a modern overlay component using Bootstrap 6.0.0-alpha.1:
+- Use native <dialog> element with data-bs-toggle="dialog" and data-bs-target="#myDialog".
+- Use .dialog-box and modern styling without legacy modal backdrops.
+- Implement ESM JavaScript interaction using type="module".
+- Provide smooth opening and closing triggers with appropriate ARIA accessibility attributes.
+`,
+    form: `Build a modern form utilizing Bootstrap 6.0.0-alpha.1 new components:
+- Include modern form controls, floating labels, or input groups.
+- Incorporate a multi-digit OTP verification input or native datepicker control.
+- Ensure all interactive scripts use ES Module syntax (type="module").
+- Follow valid/invalid feedback styling guidelines.
+`
+  };
+
+  function updatePrompt() {
+    const task = taskSelect.value;
+    const tool = toolSelect.value;
+    let base = templates[task];
+    if (tool === 'cursor') {
+      base = `@https://getbootstrap.com/llms.txt\n` + base;
+    }
+    promptOutput.value = base;
+  }
+
+  taskSelect.addEventListener('change', updatePrompt);
+  toolSelect.addEventListener('change', updatePrompt);
+  updatePrompt();
+
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(promptOutput.value).then(() => {
+      copyFeedback.classList.remove('d-none');
+      setTimeout(() => copyFeedback.classList.add('d-none'), 2500);
+    });
+  });
+</script>
+</body>
+</html>
